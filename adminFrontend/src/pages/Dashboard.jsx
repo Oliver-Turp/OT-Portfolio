@@ -1,0 +1,68 @@
+import React from 'react';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthProvider';
+import { useUserContentContext } from '../contexts/UserContentProvider';
+import { Outlet } from 'react-router-dom';
+import StatusMessage from '../components/StatusMessage';
+
+function Dashboard() {
+  // accessing some global state from appropriate contexts
+  const { adminUsername, logoutAdmin, token } = useAuthContext();
+  const { statusMessage, setStatusMessage } = useUserContentContext();
+
+  // wrapping the logout function from the AuthProvider
+  function logout() {
+    logoutAdmin();
+  }
+
+  // redirect to login page if no token exists. This makes sure if we loose the token at any point we'd be redirected back to login page
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
+    <>
+      <header style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Dashboard</h1>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <p>{adminUsername}</p>
+          <button
+            style={{
+              backgroundColor: 'var(--primary-clr)',
+              color: 'var(--secondary-clr-dark)',
+              outline: '1px solid var(--secondary-clr)',
+            }}
+            onClick={logout}
+          >
+            Logout
+          </button>
+        </div>
+      </header>
+      <main>
+        {statusMessage.message && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '5px',
+              left: '1rem',
+              right: '1rem',
+              display: 'flex',
+              justifyContent: 'center',
+              zIndex: '2222',
+            }}
+          >
+            <StatusMessage
+              status={statusMessage.status}
+              message={statusMessage.message}
+              setMessage={setStatusMessage}
+            />
+          </div>
+        )}
+        <Outlet />
+      </main>
+    </>
+  );
+}
+
+export default Dashboard;

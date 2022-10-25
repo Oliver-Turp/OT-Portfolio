@@ -1,0 +1,102 @@
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const Admin = require("../models/adminModel");
+
+// @desc Register a new admin
+// @route /api/admin/auth/register
+// @method POST
+// @access Public
+const registerAdmin = async (req, res) => {
+  // what you destructure here depends on what you expect a client to pass in the body of the request
+  const { username, password } = req.body;
+  username = username.toLowerCase();
+
+  if (!username || !password) {
+    //return a response to user. The object you pass to the json() is totally up to you.
+    // the return keyword is here so that the function doesn't continue running. You don't want to send a res.json() twice, that wouldn't make sense
+    return res
+      .status(400)
+      .json({ success: false, message: "Username or Password is empty" });
+  }
+
+  try {
+    // generate a salt needed to hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newAdmin = await Admin.create({
+      username,
+      password: hashedPassword,
+    });
+
+    res.status(201).json({
+      success: true,
+      admin: {
+        username: newAdmin.username,
+        token: generateToken({ id: newAdmin.id }),
+      },
+    });
+  } catch (err) {
+    res.status(401).json({ success: false, message: err.message });
+  }
+};
+
+// @desc Login an admin
+// @route /api/admin/auth/login
+// @method POST
+// @access Public
+const loginAdmin = async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Username or Password is not provided",
+    });
+  }
+  try {
+    // check if the username exists in the database
+    const admin = await Admin.findOne({ username });
+    if (admin) {
+      // check if password's match
+      const passwordsMatch = await bcrypt.compare(password, admin.password);
+      if (passwordsMatch) {
+        // yay! that's really an admin. Let's give him/her a token they can use to make request for protected routes
+        const token = generateToken({ id: admin.id });
+
+        return res.status(200).json({
+          success: true,
+          data: { admin: { username: admin.username, token } },
+        });
+      }
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect Password" });
+    }
+
+    res.status(401).json({ success: false, message: "Admin does not exist" });
+  } catch (err) {
+    res
+      .status(401)
+      .json({ success: false, message: `Incorrect Username or password` });
+  }
+};
+
+// @desc Get details of an admin
+// @route /api/admin/auth/@me
+// @method GET
+// @access Private
+const getMe = async (req, res) => {
+  res.status(200).json({ success: true, data: { admin: req.admin } });
+};
+
+// generates the token admin will use to access private routes
+function generateToken(payload) {
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" });
+}
+
+//export the controller functions here
+module.exports = {
+  registerAdmin,
+  loginAdmin,
+  getMe,
+};
