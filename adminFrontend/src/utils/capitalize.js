@@ -1,9 +1,9 @@
 export default function capitalize(text) {
   // split the text into component words
-  // splits the text such that delimeting letters are also kept as elements
+  // splits the text such that delimiting letters are also kept as elements
   let wordArr = text.split(/([A-Z])/g);
 
-  // try to join the delimeting letter to the word it came from
+  // try to join the delimiting letter to the word it came from
   for (let i = 0; i < wordArr.length; i++) {
     const word = wordArr[i];
     if (word.length === 1 && word === word.toUpperCase()) {

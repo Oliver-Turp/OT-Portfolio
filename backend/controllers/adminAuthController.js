@@ -9,7 +9,7 @@ const Admin = require("../models/adminModel");
 const registerAdmin = async (req, res) => {
   // what you destructure here depends on what you expect a client to pass in the body of the request
   const { username, password } = req.body;
-  username = username.toLowerCase();
+  // username = username.toLowerCase(); FIX THIS!
 
   if (!username || !password) {
     //return a response to user. The object you pass to the json() is totally up to you.

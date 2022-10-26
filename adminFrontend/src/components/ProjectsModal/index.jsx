@@ -95,7 +95,7 @@ function ProjectsModal() {
       });
     }
 
-    dateRef.current.max = new Date().toLocaleDateString("en-ca");
+    // dateRef.current.max = new Date().toLocaleDateString("en-ca");
   }, []);
 
   function handleChange(e) {
@@ -444,14 +444,29 @@ function ProjectsModal() {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="featured">Featured?</label>
-              <input
-                type="checkbox"
-                id="featured"
-                onChange={handleChange}
-                value={formData["featured"]}
-              />
+            <div className="form-groups">
+              <label>Featured?</label>
+              <br />
+              <span className="form-group">
+                <label htmlFor="featuredTrue">True</label>
+                <input
+                  type="radio"
+                  id="featuredTrue"
+                  name="featured"
+                  onChange={handleChange}
+                  value={formData["featured"]}
+                />
+              </span>
+              <span className="form-group">
+                <label htmlFor="featuredFalse">False</label>
+                <input
+                  type="radio"
+                  id="featuredFalse"
+                  name="featured"
+                  onChange={handleChange}
+                  value={formData["featured"]}
+                />
+              </span>
             </div>
 
             <div className={" form-group " + Styles.ButtonGroup}>
@@ -468,7 +483,7 @@ function ProjectsModal() {
                   </>
                 ) : (
                   <>
-                    <FaEdit /> {" Make Changes"}{" "}
+                    <FaEdit /> {" Make Changes"}
                   </>
                 )}
               </button>

@@ -64,6 +64,23 @@ form {
     width: 25rem;
 }
 
+.form-groups {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.form-groups > label {
+    flex: 2;
+}
+
+.form-groups .form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 0.5rem;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;

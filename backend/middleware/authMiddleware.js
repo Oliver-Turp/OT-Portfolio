@@ -13,7 +13,7 @@ async function protect(req, res, next) {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             // get admin's id which was put in the token when it was first created and use that to get the admin from the database
             const admin = await Admin.findById(new mongoose.Types.ObjectId(decoded.id))
-            req.admin = { email: admin.email }
+            req.admin = { username: admin.username }
             req.token = token
             next();
         } catch (err) {

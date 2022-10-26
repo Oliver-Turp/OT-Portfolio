@@ -39,7 +39,6 @@ const projectSchema = new Schema(
     },
     featured: {
       type: Boolean,
-      required: true,
     },
   },
   {

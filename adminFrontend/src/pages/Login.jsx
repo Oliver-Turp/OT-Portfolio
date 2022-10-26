@@ -7,10 +7,10 @@ import StatusMessage, { FAILED, SUCCESS } from "../components/StatusMessage";
 function Login() {
   const { setToken, token, attemptLogin } = useAuthContext();
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [emailErrorMsg, setEmailErrorMsg] = useState("");
+  const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
   const [message, setMessage] = useState({});
@@ -19,11 +19,11 @@ function Login() {
     e.preventDefault();
     console.log("submit proceed");
 
-    if (email === "") {
-      setEmailErrorMsg("Email is required");
+    if (username === "") {
+      setUsernameErrorMsg("Username is required");
       return;
     } else {
-      setEmailErrorMsg("");
+      setUsernameErrorMsg("");
     }
 
     if (password === "") {
@@ -33,7 +33,7 @@ function Login() {
       setPasswordErrorMsg("");
     }
 
-    const result = await attemptLogin({ email, password });
+    const result = await attemptLogin({ username, password });
 
     if (result.success) {
       setMessage({ success: true, message: "Signed In" });
@@ -83,15 +83,15 @@ function Login() {
           <form onSubmit={handleSubmit}>
             <h2>Login as Admin</h2>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="username">Username</label>
               <input
-                type="email"
-                id="email"
-                placeholder="Enter email"
-                onChange={(e) => setEmail(e.target.value)}
+                type="string"
+                id="username"
+                placeholder="Enter Username"
+                onChange={(e) => setUsername(e.target.value)}
               />
-              {emailErrorMsg && (
-                <p className="missing-field-alert">{emailErrorMsg}</p>
+              {usernameErrorMsg && (
+                <p className="missing-field-alert">{usernameErrorMsg}</p>
               )}
             </div>
 
@@ -100,7 +100,7 @@ function Login() {
               <input
                 type="password"
                 id="password"
-                placeholder="Enter password"
+                placeholder="Enter Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
               {passwordErrorMsg && (

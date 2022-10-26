@@ -37,14 +37,14 @@ function AuthProvider({ children }) {
       ).json();
 
       if (data.success) {
-        setAdminUsername(data.data.admin.email);
+        setAdminUsername(data.data.admin.username);
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  async function attemptLogin({ email, password }) {
+  async function attemptLogin({ username, password }) {
     try {
       const response = await fetch(baseUrl + "auth/login", {
         method: "POST",
@@ -53,7 +53,7 @@ function AuthProvider({ children }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          username,
           password,
         }),
       });
