@@ -18,7 +18,7 @@ const registerAdmin = async (req, res) => {
       .json({ success: false, message: "Username or Password is empty" });
   }
 
-  // this line is to make the username supplied by client request to be case INsenSITive
+  // this line is to make the username supplied by client request to be case INsenSITive. The issue was trying to convert the text to lowercase when you're not even sure if there's a value
   username = username.toLowerCase();
   
   try {
