@@ -9,7 +9,6 @@ const Admin = require("../models/adminModel");
 const registerAdmin = async (req, res) => {
   // what you destructure here depends on what you expect a client to pass in the body of the request
   const { username, password } = req.body;
-  // username = username.toLowerCase(); FIX THIS!
 
   if (!username || !password) {
     //return a response to user. The object you pass to the json() is totally up to you.
@@ -19,6 +18,9 @@ const registerAdmin = async (req, res) => {
       .json({ success: false, message: "Username or Password is empty" });
   }
 
+  // this line is to make the username supplied by client request to be case INsenSITive. The issue was trying to convert the text to lowercase when you're not even sure if there's a value
+  username = username.toLowerCase();
+  
   try {
     // generate a salt needed to hash the password
     const salt = await bcrypt.genSalt(10);
