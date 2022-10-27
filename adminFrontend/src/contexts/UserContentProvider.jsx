@@ -79,7 +79,7 @@ function UserContentProvider({ children }) {
   ) {
     try {
       const newProject = await (
-        await fetch(baseUrl + "content/project", {
+        await fetch(baseUrl + "content/projects", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

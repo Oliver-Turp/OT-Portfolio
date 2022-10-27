@@ -102,7 +102,6 @@ function ProjectsModal() {
     let newValue = e.target.value;
     if(e.target.id === "featured"){
       newValue = e.target.checked
-      console.log("newValueForCheckbox: " +newValue)
     }
 
 
@@ -116,12 +115,9 @@ function ProjectsModal() {
     e.preventDefault();
     // loop through all properties of formData which corresponds to the value for each form input
     for (let field in formData) {
-      console.log(field)
       const element = e.target[field];
 
-      console.log(element, element.id)
       const elementName = capitalize(element.id);
-      console.log('element: ' + element.id,  'elementValue: ' + element.value);
 
       // check if user has provided a value to the form input or not
       if (element.value === '') {
