@@ -43,7 +43,7 @@ function main() {
       console.log("Mongodb connected");
       startServer();
     } else {
-      console.log("Couldn't connect to mongodb. Retrying...");
+      console.log("Couldn't connect to mongodb. Retrying...", err);
       main();
     }
   });
