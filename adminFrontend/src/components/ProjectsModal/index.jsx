@@ -464,6 +464,7 @@ function ProjectsModal() {
                   name="featured"
                   onChange={handleChange}
                   value={formData['featured']}
+                  checked={formData['featured']}
                 />
               </span>
              

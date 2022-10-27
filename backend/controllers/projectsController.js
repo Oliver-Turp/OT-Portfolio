@@ -53,7 +53,7 @@ async function addProject(req, res) {
     !icon2 ||
     !icon3 ||
     !type ||
-    !featured
+    featured === undefined
   ) {
     return res.status(400).json({
       success: false,
@@ -110,6 +110,7 @@ async function addProject(req, res) {
 async function updateProject(req, res) {
   const { name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
+    console.log(featured)
   const { id } = req.params;
   if (
     !name ||
@@ -120,7 +121,7 @@ async function updateProject(req, res) {
     !icon2 ||
     !icon3 ||
     !type ||
-    !featured
+    featured === undefined
   ) {
     return res.status(400).json({
       success: false,
@@ -128,16 +129,17 @@ async function updateProject(req, res) {
     });
   }
   try {
+
     const oldProject = await Project.findOne({ _id: id });
-    oldName.name = project.name;
-    oldDesc.desc = project.desc;
-    oldImage.image = project.image;
-    oldLink.link = project.link;
-    oldIcon1.icon1 = project.icon1;
-    oldIcon2.icon2 = project.icon2;
-    oldIcon3.icon3 = project.icon3;
-    oldType.type = project.type;
-    oldFeatured.featured = project.featured;
+    oldProject.name = name;
+    oldProject.desc = desc;
+    oldProject.image = image;
+    oldProject.link = link;
+    oldProject.icon1 = icon1;
+    oldProject.icon2 = icon2;
+    oldProject.icon3 = icon3;
+    oldProject.type = type;
+    oldProject.featured = featured;
 
     await oldProject.save();
 
