@@ -43,6 +43,7 @@ async function getAllProjects(req, res) {
 async function addProject(req, res) {
   const { id, name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
+  console.log(req.body);
   if (
     !name ||
     !desc ||
@@ -128,15 +129,15 @@ async function updateProject(req, res) {
   }
   try {
     const oldProject = await Project.findOne({ _id: id });
-    oldName: project.name;
-    oldDesc: project.desc;
-    oldImage: project.image;
-    oldLink: project.link;
-    oldIcon1: project.icon1;
-    oldIcon2: project.icon2;
-    oldIcon3: project.icon3;
-    oldType: project.type;
-    oldFeatured: project.featured;
+    oldName.name = project.name;
+    oldDesc.desc = project.desc;
+    oldImage.image = project.image;
+    oldLink.link = project.link;
+    oldIcon1.icon1 = project.icon1;
+    oldIcon2.icon2 = project.icon2;
+    oldIcon3.icon3 = project.icon3;
+    oldType.type = project.type;
+    oldFeatured.featured = project.featured;
 
     await oldProject.save();
 

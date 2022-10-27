@@ -63,60 +63,62 @@ function Projects() {
                           <article>
                             <h3>
                               <span className={Styles.ProjectInfoType}>
-                                Name:
+                                <p>Name: </p>
                               </span>
                               {project.name}
                             </h3>
-                            <p>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                Description:
+                                <p>Description: </p>
                               </span>
                               {project.desc}
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                CoverUrl:
+                                <p>Picture: </p>
                               </span>
-                              <a href={`${project.coverImage}`} target="_blank">
+                              <a href={project.image} target="_blank">
                                 {project.image}
                               </a>
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                URL:
+                                <p>URL:</p>
                               </span>
-                              {project.link}
-                            </p>
-                            <p>
+                              <a href={project.link} target="_blank">
+                                {project.link}
+                              </a>
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                Icon 1:
+                                <p>Icon 1:</p>
                               </span>
-                              ${project.icon1}
-                            </p>
-                            <p>
+                              {project.icon1}
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                Icon 2:
+                                <p>Icon2:</p>
                               </span>
-                              ${project.icon2}
-                            </p>
-                            <p>
+                              {project.icon2}
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                Icon 3:
+                                <p>Icon 3:</p>
                               </span>
-                              ${project.icon3}
-                            </p>
-                            <p>
+                              {project.icon3}
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                Type:
+                                <p>Type:</p>
                               </span>
                               {project.type}
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                               <span className={Styles.ProjectInfoType}>
-                                Featured:
+                                <p>Featured:</p>
                               </span>
                               {project.featured}
-                            </p>
+                            </div>
                           </article>
                         </div>
                       </td>
