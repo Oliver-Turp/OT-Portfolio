@@ -53,7 +53,7 @@ async function addProject(req, res) {
     !icon2 ||
     !icon3 ||
     !type ||
-    !featured
+    featured === undefined
   ) {
     return res.status(400).json({
       success: false,
@@ -110,6 +110,7 @@ async function addProject(req, res) {
 async function updateProject(req, res) {
   const { name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
+    console.log(featured)
   const { id } = req.params;
   if (
     !name ||
@@ -120,7 +121,7 @@ async function updateProject(req, res) {
     !icon2 ||
     !icon3 ||
     !type ||
-    !featured
+    featured === undefined
   ) {
     return res.status(400).json({
       success: false,
