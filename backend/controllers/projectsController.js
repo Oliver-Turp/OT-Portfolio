@@ -127,6 +127,7 @@ async function updateProject(req, res) {
     });
   }
   try {
+    console.log(project)
     const oldProject = await Project.findOne({ _id: id });
     oldName: project.name;
     oldDesc: project.desc;
