@@ -43,7 +43,7 @@ async function getAllProjects(req, res) {
 async function addProject(req, res) {
   const { id, name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
-  console.log(req.body);
+  // console.log(req.body);
   if (
     !name ||
     !desc ||
@@ -110,7 +110,7 @@ async function addProject(req, res) {
 async function updateProject(req, res) {
   const { name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
-    console.log(featured)
+  console.log(featured);
   const { id } = req.params;
   if (
     !name ||
@@ -129,7 +129,6 @@ async function updateProject(req, res) {
     });
   }
   try {
-
     const oldProject = await Project.findOne({ _id: id });
     oldProject.name = name;
     oldProject.desc = desc;

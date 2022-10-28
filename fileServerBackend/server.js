@@ -3,7 +3,7 @@ const path = require("path");
 const multer = require("multer");
 const cors = require("cors");
 const { v4: uuid } = require("uuid");
-const { saveImage, deleteImage } = require("./controllers/imageController");
+const { saveImage, deleteImage } = require("./controllers/projectController");
 const mongoose = require("mongoose");
 const { config } = require("dotenv");
 const { protect } = require("./middleware/authMiddleware");
@@ -23,15 +23,15 @@ function startServer() {
   app.use(express.json()); // allows express understand json data sent in the body of a request
 
   //setting up what will give us a middleware to handle files when they are uploaded to this server
-  const bookImageFileStorage = multer.diskStorage({
+  const projectFileStorage = multer.diskStorage({
     destination: (req, file, cb) =>
-      cb(null, __dirname + "/uploads/bookCoverImages"),
+      cb(null, __dirname + "/uploads/projectDisplayPictures"),
     filename: (req, file, cb) => {
       cb(null, uuid() + "." + file.mimetype.split("/")[1]);
     },
   });
 
-  const upload = multer({ storage: bookImageFileStorage });
+  const upload = multer({ storage: projectFileStorage });
 
   //setting different controller functions for different routes.
   app.post("/upload", protect, upload.single("image"), saveImage); // upload.single() returns a middleware that will first run, making data to the uploaded file available to us througth req.file

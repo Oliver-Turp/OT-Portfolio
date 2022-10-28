@@ -1,4 +1,4 @@
-const Image = require("../models/imageModel");
+const Image = require("../models/projectModel");
 const fs = require("fs/promises");
 const { existsSync } = require("fs");
 const path = require("path");
