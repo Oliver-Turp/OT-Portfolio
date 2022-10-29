@@ -1,0 +1,63 @@
+.generic__images-wrap {
+    height: 100vh;
+    width: 100vw;
+    padding-top: 10vh;
+}
+
+.generic__images-wrap h3 {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 3rem;
+    padding-bottom: 3vh;
+}
+
+.generic__images-wrap h6 {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 1.25rem;
+    padding-bottom: 3vh;
+}
+
+.generic__images-wrap_thumbnail-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 50vw;
+    margin: auto;
+}
+
+.generic__images-wrap_thumbnail-wrap .thumbnail-item {
+    margin: 0 1rem;
+
+}
+
+.generic__images-wrap_thumbnail-wrap .thumbnail-item img {
+    width: 10vw;
+    height: auto;
+    cursor: pointer;
+
+}
+
+.generic__images-wrap_thumbnail-wrap .thumbnail-item p {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.generic__images-wrap_thumbnail-wrap .thumbnail-item.clicked {
+    position: absolute;
+    width: 80vw;
+    height: 80vh;
+    outline: 1px solid black;
+    transition: all 1s ease;
+}
+
+.generic__images-wrap_thumbnail-wrap .thumbnail-item.clicked img {
+    width: 100%;
+    height: 80vh;
+    transition: all 1s ease;
+}
+
+.generic__images-wrap_thumbnail-wrap .thumbnail-item.clicked .generic__images-wrap {
+    background-color: blue;
+}

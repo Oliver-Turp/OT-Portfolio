@@ -1,0 +1,23 @@
+{
+  "name": "ollieapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm:dev --prefix backend\"  \"npm:dev --prefix frontend\"  \"npm:dev --prefix adminFrontend\"  \"npm:dev --prefix fileServerBackend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeyOnyedika/ollieProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikeyOnyedika/ollieProject/issues"
+  },
+  "homepage": "https://github.com/MikeyOnyedika/ollieProject#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
+}

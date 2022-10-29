@@ -1,0 +1,117 @@
+.home__contact-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  min-height: calc(100vh - 10.9rem);
+}
+
+.home__contact-wrap_margin {
+  width: 60vw;
+  margin: 0 auto;
+  padding-top: 3rem;
+  text-transform: capitalize;
+}
+
+.home__contact-wrap_margin h1 {
+  margin-bottom: 2rem;
+}
+
+.home__contact-wrap_content-wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+.home__contact-wrap_content-wrap_left {
+  flex: 1;
+  position: relative;
+}
+
+.home__contact_input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.home__contact_input-group label {
+  margin-bottom: 0.5rem;
+}
+
+.home__contact_input-group input {
+  padding: 0.375rem 0.75rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+}
+
+.home__contact_input-group textarea {
+  resize: vertical;
+  overflow: auto;
+  padding: 0.375rem 0.75rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+}
+
+.home__contact_input-btn {
+  cursor: pointer;
+  color: #fff;
+  background-color: #4dac6a;
+  border: 1px solid #4dac6a;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  text-transform: capitalize;
+  transition: background 0.4s ease-in-out;
+  font-size: 1rem;
+}
+
+.home__contact-wrap_content-wrap_right {
+  margin-left: 8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  letter-spacing: .1rem;
+}
+
+.home__contact-wrap_content-wrap_right_links {
+  width: 100%;
+}
+
+.home__contact-wrap_content-wrap_right_links h2 {
+  margin: 1rem 0;
+}
+
+body .home__contact-wrap_content-wrap_right_links a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.home__contact-wrap_content-wrap_right_text h2 {
+  margin-bottom: 1rem;
+}
+
+.home__contact-wrap_content-wrap_left form.sent {
+  opacity: 0;
+}
+
+.home__contact-wrap_content-wrap_left #form_success {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  font-size: 5rem;
+  text-align: center;
+  opacity: 0;
+  z-index: -99;
+}
+
+.home__contact-wrap_content-wrap_left #form_success.visible {
+  opacity: 1;
+  z-index: initial;
+}

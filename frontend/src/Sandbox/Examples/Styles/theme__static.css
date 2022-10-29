@@ -1,0 +1,51 @@
+.theme__static-wrap {
+  background-image: url('../Assets/Images/ReviewsExample/reviewsBackground.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.theme__static-wrap h3 {
+  padding: 2.5vh;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.3rem;
+  letter-spacing: .05rem;
+  color: white;
+  text-shadow: 3px 3px 3px black;
+}
+
+.reviews__wrap {
+    padding-bottom: 10vh;
+  }
+  
+  .reviews__wrap h1 {
+    color: white;
+    text-shadow: 3px 3px 3px black;
+    font-size: 70px;
+    font-weight: 400;
+    text-transform: capitalize;
+    padding: 5vh 0;
+    text-align: center;
+  }
+  
+  .reviews__grid {
+    max-width: 75vw;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .reviews__item {
+    margin: 2vh;
+    height: 500px;
+    width: auto;
+  }
+  
+  .reviews__item img {
+    height: 100%;
+    width: 100%;
+  }
+  

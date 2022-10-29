@@ -1,0 +1,44 @@
+.generic__form-wrap {
+    background: url("../../Phoenix_Media/Assets/Images/contactBackground.png") center no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  animation: contact-bg 35s infinite;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.generic__form-wrap h1 {
+padding: 2rem 0;
+text-align: center;
+font-size: 7rem;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.5rem;
+color: var(--white-color);
+text-shadow: 0 1rem 2rem #000;
+}
+
+.generic__form-wrap form {
+    margin: 0 10rem 10rem;
+    padding: 5rem;
+    background-color: white;
+    border-radius: 5rem;
+}
+
+.generic__form-wrap form .hidden__response {
+    display: none;
+    font-size: 2rem;
+    text-transform: capitalize;
+    text-align: center;
+    line-height: 5rem;
+}
+
+.generic__form-wrap form.submitted .pm__contact_input-group, 
+.generic__form-wrap form.submitted .pm__contact_input-button {
+    display: none;
+}
+
+.generic__form-wrap form.submitted .hidden__response {
+    display: block;
+}

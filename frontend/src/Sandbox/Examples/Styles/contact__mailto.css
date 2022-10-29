@@ -1,0 +1,28 @@
+.theme__mailto-wrap {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.theme__mailto-wrap .clickMe {
+    position: absolute;    
+    top: 45vh;
+    left: 10vw;
+    text-align: center;
+}
+
+.theme__mailto-wrap .clickMe p {
+    font-size: 2.5rem;
+}
+
+#generic__mailto {
+    cursor: pointer;
+    z-index: 99;
+    font-size: 10rem;
+    color: black;
+    white-space: nowrap;
+}
+
+#generic__mailto:hover {
+    color: blue;
+}

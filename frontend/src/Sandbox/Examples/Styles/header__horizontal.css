@@ -1,0 +1,30 @@
+.generic__page-wrap_header-bg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+}
+
+.generic__page-wrap_header-wrap {
+  width: 50vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: capitalize;
+  padding: 0.75rem 0;
+  letter-spacing: .05rem;
+}
+
+.generic__header-link {
+  cursor: pointer;
+}
+
+.generic__header-link.underline:hover {
+  text-decoration: underline;
+}
+
+.generic__page-wrap_header-wrap div {
+  display: flex;
+}
