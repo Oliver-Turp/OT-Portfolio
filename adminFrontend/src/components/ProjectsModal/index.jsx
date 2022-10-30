@@ -100,15 +100,18 @@ function ProjectsModal() {
 
   function handleChange(e) {
     let newValue = e.target.value;
-    if(e.target.id === "featured"){
-      newValue = e.target.checked
+    if (e.target.id === 'featured') {
+      newValue = e.target.checked;
     }
-
-
 
     setFormData((prevValue) => {
       return { ...prevValue, [e.target.id]: newValue };
     });
+  }
+
+  function setSubmitBtnEnabled(isEnabled) {
+    submitBtnRef.current.disabled = isEnabled;
+    setProcessingRequest(isEnabled);
   }
 
   async function handleSubmit(e) {
@@ -145,17 +148,18 @@ function ProjectsModal() {
     let imageUrl = formData.image;
 
     // You want to  disable submit button to prevent user from clicking multiple times
-    submitBtnRef.current.disabled = true;
-    setProcessingRequest(true);
+    setSubmitBtnEnabled(false);
 
     // generate a project id if we're adding a new project or use project id of current project if we're only editing the project
     const imageProjectId = mode === 'create' ? generateId() : id;
     if (imageUploadChoice === 'upload') {
       // first upload the image to the cdn server
+
       const imageUploadResponse = await uploadToCdn(
         acceptedFiles[0],
         imageProjectId
       );
+
       console.log('image uploaded to cdn');
       // if that works, then use the url returned to set the imageUrl for the project we'll be creating
       if (imageUploadResponse.success) {
@@ -172,6 +176,8 @@ function ProjectsModal() {
         message:
           'Project Image not uploaded to CDN, Project not added. Try again',
       });
+
+      setSubmitBtnDisabled(true);
       return;
     }
 
@@ -206,8 +212,7 @@ function ProjectsModal() {
     }
 
     // enable button again
-    submitBtnRef.current.disabled = false;
-    setProcessingRequest(false);
+    setSubmitBtnDisabled(false);
   }
 
   function generateId() {
@@ -244,6 +249,10 @@ function ProjectsModal() {
 
       if (addProjectResponse.success) {
         setFormData(formDataInitialState);
+
+        // TODO: RESET THE FILE SELECTION
+        acceptedFiles.shift();
+
         includeProjectToList(addProjectResponse.data.project);
         setStatusMessage({
           status: SUCCESS,
@@ -454,10 +463,9 @@ function ProjectsModal() {
             </div>
 
             <div className="form-groups">
-              <label htmlFor='featured'>Featured?</label>
+              <label htmlFor="featured">Featured?</label>
               <br />
               <span className="form-group">
-      
                 <input
                   type="checkbox"
                   id="featured"
@@ -467,7 +475,6 @@ function ProjectsModal() {
                   checked={formData['featured']}
                 />
               </span>
-             
             </div>
 
             <div className={' form-group ' + Styles.ButtonGroup}>

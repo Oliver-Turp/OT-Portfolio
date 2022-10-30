@@ -33,11 +33,12 @@ const ContentProvider: React.FC<PropsWithChildren> = ({ children }) => {
     try {
       const data = await (await fetch(`${baseUrl}/projects`)).json();
       if (data.success) {
-        console.log(data.data.projects);
+        console.log(data);
         setProjects(data.data.projects);
       }
+      console.log(data)
     } catch (err) {
-      console.log(err);
+      console.log(err.message)
     }
   }
 

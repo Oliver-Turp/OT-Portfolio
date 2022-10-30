@@ -1,17 +1,17 @@
-import React, { createContext, useContext, useReducer } from "react";
-import { useCallback, useState } from "react";
-import { useEffect } from "react";
-import useBaseUrl from "../hooks/useBaseUrl";
-import { useAuthContext } from "./AuthProvider";
+import React, { createContext, useContext, useReducer } from 'react';
+import { useCallback, useState } from 'react';
+import { useEffect } from 'react';
+import useBaseUrl from '../hooks/useBaseUrl';
+import { useAuthContext } from './AuthProvider';
 
 const UserContentContext = createContext();
 
 const projectsReducer = (state, action) => {
-  if (action.type === "POPULATE") {
+  if (action.type === 'POPULATE') {
     return [...action.payload];
-  } else if (action.type === "ADD") {
+  } else if (action.type === 'ADD') {
     return [...state, action.payload];
-  } else if (action.type === "UPDATE_PROJECT") {
+  } else if (action.type === 'UPDATE_PROJECT') {
     console.log(action.payload);
     return state.map((item) => {
       if (item.id === action.payload.id) {
@@ -19,11 +19,11 @@ const projectsReducer = (state, action) => {
       }
       return item;
     });
-  } else if (action.type === "DELETE_PROJECT") {
+  } else if (action.type === 'DELETE_PROJECT') {
     return state.filter((item) => item.id !== action.payload);
   }
 
-  throw new Error("Action type for projects does not match any defined type");
+  throw new Error('Action type for projects does not match any defined type');
 };
 
 export function useUserContentContext() {
@@ -33,8 +33,8 @@ export function useUserContentContext() {
 function UserContentProvider({ children }) {
   const [projects, projectDispatch] = useReducer(projectsReducer, []);
   const [statusMessage, setStatusMessage] = useState({
-    status: "",
-    message: "",
+    status: '',
+    message: '',
   });
 
   const [openModal, setOpenModal] = useState({
@@ -49,20 +49,20 @@ function UserContentProvider({ children }) {
   const { token } = useAuthContext();
 
   async function fetchProjects() {
-    const data = await (await fetch(baseUrl + "content/projects")).json();
+    const data = await (await fetch(baseUrl + 'content/projects')).json();
     if (data.success) {
       // console.log(data.data.projects);
-      projectDispatch({ type: "POPULATE", payload: data.data.projects });
+      projectDispatch({ type: 'POPULATE', payload: data.data.projects });
     }
   }
   function includeProjectToList(project) {
-    projectDispatch({ type: "ADD", payload: project });
+    projectDispatch({ type: 'ADD', payload: project });
   }
   function updateProjectInList(project) {
-    projectDispatch({ type: "UPDATE_PROJECT", payload: project });
+    projectDispatch({ type: 'UPDATE_PROJECT', payload: project });
   }
   function deleteProjectFromList(id) {
-    projectDispatch({ type: "DELETE_PROJECT", payload: id });
+    projectDispatch({ type: 'DELETE_PROJECT', payload: id });
   }
 
   async function addProject(
@@ -79,11 +79,11 @@ function UserContentProvider({ children }) {
   ) {
     try {
       const newProject = await (
-        await fetch(baseUrl + "content/projects", {
-          method: "POST",
+        await fetch(baseUrl + 'content/projects', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
           },
           body: JSON.stringify({
             id,
@@ -101,8 +101,8 @@ function UserContentProvider({ children }) {
       ).json();
       return newProject;
     } catch (err) {
-      console.log("Error: ", err);
-      return { success: false, message: "Something went wrong! Try again" };
+      console.log('Error: ', err);
+      return { success: false, message: 'Something went wrong! Try again' };
     }
   }
 
@@ -122,10 +122,10 @@ function UserContentProvider({ children }) {
       console.log(id);
       const response = await (
         await fetch(`${baseUrl}content/projects/${id}`, {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
           },
           body: JSON.stringify({
             id,
@@ -143,7 +143,7 @@ function UserContentProvider({ children }) {
       ).json();
       return response;
     } catch (err) {
-      console.log("Error: ", err);
+      console.log('Error: ', err);
       return { success: false, message: "Couldn't update project. Try again" };
     }
   }
@@ -152,9 +152,9 @@ function UserContentProvider({ children }) {
     try {
       const data = await (
         await fetch(`${baseUrl}content/projects/${id}`, {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         })
       ).json();
@@ -167,28 +167,31 @@ function UserContentProvider({ children }) {
   async function uploadToCdn(file, projectId) {
     // console.log(file);
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("projectId", projectId);
-
-    const response = await (
-      await fetch(`${fileServerBase}`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-    ).json();
-    return response;
+    formData.append('image', file);
+    formData.append('projectId', projectId);
+    try {
+      const response = await (
+        await fetch(`${fileServerBase}`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+      ).json();
+      return response;
+    } catch (err) {
+      return { success: false, message: "Couldn't upload to cdn" };
+    }
   }
 
   async function deleteFromCdn(url) {
     const response = await (
       await fetch(fileServerBase, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
         },
         body: JSON.stringify({ url }),
       })
@@ -200,10 +203,10 @@ function UserContentProvider({ children }) {
   async function updateImageUrl(id, url) {
     const data = await (
       await fetch(`${baseUrl}content/projects/${id}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
         },
         body: JSON.stringify({
           coverImage: url,
