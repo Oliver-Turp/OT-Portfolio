@@ -1,71 +1,114 @@
 .home__services-wrap {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    text-align: center;
-    text-transform: capitalize;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  text-align: center;
+  text-transform: capitalize;
 }
 
 .home__services-wrap h1 {
-    margin: 2rem 0;
+  margin: 2rem 0;
 }
 
 .home__services-wrap_content-wrap {
-    padding: 0 5vw;
-    display: grid;
-    grid-template-columns: .5fr .5fr;
+  padding: 0 5vw;
+  display: flex;
+  flex-direction: column;
 }
 
-.home__services-content_left {
-    width: 100%;
+.home__services-content {
+  outline: 1px solid green;
 }
 
-.left_cat {
-margin: .5rem 0;
-}
-
-.left_cat_item {
-display: grid;
-grid-template-columns: .25fr .75fr;
-grid-column-gap: .5rem;
-justify-content: center;
-align-items: center;
-}
-
-.item_input {
-    text-align: right;
-}
-
-.item_label {
-    text-align: left;
-}
-
-#pages-count,
-#emails-count {
-    width: 30%;
-    text-align: center;
-}
-
-.home__services-content_right {
-    width: 100%;
-    outline: 1px solid green;
+.services-bold {
+  font-weight: 700;
 }
 
 .services_print-item {
-    display: grid;
-    grid-template-columns: .4fr .6fr;
-    grid-column-gap: .25rem;
-    justify-content: center;
-    align-items: center;
-    margin: .25rem 0;
+  margin: auto;
 }
 
-.services_print-item p:nth-child(1) {
-    text-align: right;
+.home__services-content form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 4vw;
 }
 
-.services_print-item p:nth-child(2) {
-    text-align: left;
+.service-form .row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 0.25fr;
+  grid-column-gap: 1vw;
+  margin: 1vh 0;
+  align-items: center;
+}
+
+.row p {
+  text-align: right;
+}
+
+.row svg {
+  cursor: pointer;
+}
+
+.row svg:hover {
+  color: blue;
+}
+
+.row.static p:nth-of-type(2),
+.row input,
+.row select {
+  text-align: center;
+}
+
+.row.static h3 {
+  grid-column: 2/3;
+}
+
+.service-form.static {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 4vw;
+}
+
+.service-form.static .row {
+  grid-column-gap: 0;
+}
+
+.service-form.static .row.static {
+  grid-column: 1/3;
+}
+.service-form.static .row.static h3 {
+  grid-column: 1/4;
+}
+
+.service-form.static .row p {
+  margin-right: 1vw;
+}
+
+.service-form.static .row input {
+  grid-column: 2/4;
+  margin-right: 2.5vw;
+}
+
+.service-form.static #deadline {
+  text-transform: uppercase;
+}
+
+.service-form.static .double-width {
+  grid-column: 1/3;
+  margin: 1vh 2.5vw;
+}
+
+.service-form.static textarea {
+  resize: vertical;
+  width: 100%;
+  text-align: center;
+}
+
+.home__services-content form button {
+  margin: 0 auto;
+  grid-column: 1/3;
 }
