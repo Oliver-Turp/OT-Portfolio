@@ -52,7 +52,9 @@ const loginAdmin = async (req, res) => {
       message: "Username or Password is not provided",
     });
   }
-  const { username, password } = req.body;
+  let { username, password } = req.body;
+  username = username.toLowerCase();
+
   try {
     // check if the username exists in the database
     const admin = await Admin.findOne({ username });
