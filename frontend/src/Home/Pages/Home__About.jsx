@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import CV from "../../../public/Oliver Turp Resume_Optimised.pdf";
-import Degree from "../../../public/Civil Engineering Degree.pdf";
+import CV from "../Assets/Pdfs/Civil Engineering Degree.pdf";
+import Degree from "../Assets/Pdfs/Oliver Turp Resume_Optimised.pdf";
 
 import "../Styles/home__about.css";
 
