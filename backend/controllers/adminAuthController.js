@@ -7,17 +7,15 @@ const Admin = require("../models/adminModel");
 // @method POST
 // @access Public
 const registerAdmin = async (req, res) => {
-  // what you destructure here depends on what you expect a client to pass in the body of the request
-  const { username, password } = req.body;
-
-  if (!username || !password) {
+  if (!req.body.username || !req.body.password) {
     //return a response to user. The object you pass to the json() is totally up to you.
     // the return keyword is here so that the function doesn't continue running. You don't want to send a res.json() twice, that wouldn't make sense
     return res
-      .status(400)
-      .json({ success: false, message: "Username or Password is empty" });
+    .status(400)
+    .json({ success: false, message: "Username or Password is empty" });
   }
-
+  
+  const { username, password } = req.body;
   // this line is to make the username supplied by client request to be case INsenSITive. The issue was trying to convert the text to lowercase when you're not even sure if there's a value
   username = username.toLowerCase();
   
@@ -48,13 +46,15 @@ const registerAdmin = async (req, res) => {
 // @method POST
 // @access Public
 const loginAdmin = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
+  if (!req.body.username || !req.body.password) {
     return res.status(400).json({
       success: false,
       message: "Username or Password is not provided",
     });
   }
+  let { username, password } = req.body;
+  username = username.toLowerCase();
+
   try {
     // check if the username exists in the database
     const admin = await Admin.findOne({ username });

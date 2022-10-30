@@ -109,6 +109,11 @@ function ProjectsModal() {
     });
   }
 
+  function setSubmitBtnEnabled(isEnabled) {
+    submitBtnRef.current.disabled = isEnabled;
+    setProcessingRequest(isEnabled);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     // loop through all properties of formData which corresponds to the value for each form input
@@ -143,13 +148,13 @@ function ProjectsModal() {
     let imageUrl = formData.image;
 
     // You want to  disable submit button to prevent user from clicking multiple times
-    submitBtnRef.current.disabled = true;
-    setProcessingRequest(true);
+    setSubmitBtnEnabled(false);
 
     // generate a project id if we're adding a new project or use project id of current project if we're only editing the project
     const imageProjectId = mode === "create" ? generateId() : id;
     if (imageUploadChoice === "upload") {
       // first upload the image to the cdn server
+
       const imageUploadResponse = await uploadToCdn(
         acceptedFiles[0],
         imageProjectId
@@ -170,6 +175,8 @@ function ProjectsModal() {
         message:
           "Project Image not uploaded to CDN, Project not added. Try again",
       });
+
+      setSubmitBtnDisabled(true);
       return;
     }
 
@@ -204,8 +211,7 @@ function ProjectsModal() {
     }
 
     // enable button again
-    submitBtnRef.current.disabled = false;
-    setProcessingRequest(false);
+    setSubmitBtnDisabled(false);
   }
 
   function generateId() {
@@ -242,6 +248,10 @@ function ProjectsModal() {
 
       if (addProjectResponse.success) {
         setFormData(formDataInitialState);
+
+        // TODO: RESET THE FILE SELECTION
+        acceptedFiles.shift();
+
         includeProjectToList(addProjectResponse.data.project);
         setStatusMessage({
           status: SUCCESS,
