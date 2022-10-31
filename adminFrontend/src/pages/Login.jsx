@@ -80,7 +80,7 @@ function Login() {
           </>
         )}
         <div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} autoComplete="off">
             <h2>Login as Admin</h2>
             <div className="form-group">
               <label htmlFor="username">Username</label>

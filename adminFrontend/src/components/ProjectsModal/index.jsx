@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import Styles from './styles.module.css';
-import { FaPlusCircle, FaEdit } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
-import { useEffect } from 'react';
-import capitalize from '../../utils/capitalize';
-import { useUserContentContext } from '../../contexts/UserContentProvider';
-import { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom ';
-import { SUCCESS, FAILED } from '../StatusMessage';
-import { FaArrowLeft } from 'react-icons/fa';
-import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { v4 as uuid } from 'uuid';
+import React, { useState } from "react";
+import Styles from "./styles.module.css";
+import { FaPlusCircle, FaEdit } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
+import { useEffect } from "react";
+import capitalize from "../../utils/capitalize";
+import { useUserContentContext } from "../../contexts/UserContentProvider";
+import { useRef } from "react";
+import { useNavigate, Link } from "react-router-dom ";
+import { SUCCESS, FAILED } from "../StatusMessage";
+import { FaArrowLeft } from "react-icons/fa";
+import { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { v4 as uuid } from "uuid";
 
 //ProjectModal can be opened either in the "create" mode or in the "edit" mode
 function ProjectsModal() {
@@ -21,15 +21,15 @@ function ProjectsModal() {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       if (
-        file.type !== 'image/png' &&
-        file.type !== 'image/jpg' &&
-        file.type !== 'image/jpeg'
+        file.type !== "image/png" &&
+        file.type !== "image/jpg" &&
+        file.type !== "image/jpeg"
       ) {
-        inputRef.current.value = '';
+        inputRef.current.value = "";
         setIsAFileAccepted(false);
         setStatusMessage({
           status: FAILED,
-          message: 'Image should be an image file',
+          message: "Image should be an image file",
         });
       } else {
         setIsAFileAccepted(true);
@@ -56,24 +56,24 @@ function ProjectsModal() {
   } = useUserContentContext();
   const { id, name, desc, image, link, icon1, icon2, icon3, type, featured } =
     project;
-  console.log('Original project id: ', project.id);
+  console.log("Original project id: ", project.id);
   const { mode } = openModal;
   const navigate = useNavigate();
 
   function closeModal() {
     setOpenModal({ mode: null, open: false });
-    navigate('/dashboard/projects');
+    navigate("/dashboard/projects");
   }
 
   const formDataInitialState = {
-    name: '',
-    desc: '',
-    image: '',
-    link: '',
-    icon1: '',
-    icon2: '',
-    icon3: '',
-    type: '',
+    name: "",
+    desc: "",
+    image: "",
+    link: "",
+    icon1: "",
+    icon2: "",
+    icon3: "",
+    type: "",
     featured: false,
   };
 
@@ -81,7 +81,7 @@ function ProjectsModal() {
 
   //   pre-populate form with info of the current selected project if admin will be editing the project info
   useEffect(() => {
-    if (mode === 'edit') {
+    if (mode === "edit") {
       setFormData({
         name,
         desc,
@@ -100,7 +100,7 @@ function ProjectsModal() {
 
   function handleChange(e) {
     let newValue = e.target.value;
-    if (e.target.id === 'featured') {
+    if (e.target.id === "featured") {
       newValue = e.target.checked;
     }
 
@@ -123,13 +123,13 @@ function ProjectsModal() {
       const elementName = capitalize(element.id);
 
       // check if user has provided a value to the form input or not
-      if (element.value === '') {
+      if (element.value === "") {
         // check whether the acceptedFiles array has something in it, in the case of the image. This will be the case if user decides to upload image
-        if (element.id === 'image') {
+        if (element.id === "image") {
           if (acceptedFiles.length === 0) {
             setStatusMessage({
               status: FAILED,
-              message: elementName + ' field should not be empty!',
+              message: elementName + " field should not be empty!",
             });
             element.focus();
             return;
@@ -137,7 +137,7 @@ function ProjectsModal() {
         } else {
           setStatusMessage({
             status: FAILED,
-            message: elementName + ' field should not be empty!',
+            message: elementName + " field should not be empty!",
           });
           element.focus();
           return;
@@ -151,37 +151,36 @@ function ProjectsModal() {
     setSubmitBtnEnabled(false);
 
     // generate a project id if we're adding a new project or use project id of current project if we're only editing the project
-    const imageProjectId = mode === 'create' ? generateId() : id;
-    if (imageUploadChoice === 'upload') {
+    const imageProjectId = mode === "create" ? generateId() : id;
+    if (imageUploadChoice === "upload") {
       // first upload the image to the cdn server
 
       const imageUploadResponse = await uploadToCdn(
         acceptedFiles[0],
         imageProjectId
       );
-
-      console.log('image uploaded to cdn');
+      console.log("image uploaded to cdn");
       // if that works, then use the url returned to set the imageUrl for the project we'll be creating
       if (imageUploadResponse.success) {
         imageUrl = imageUploadResponse.url;
       } else {
-        imageUrl = '';
+        imageUrl = "";
       }
     }
 
     // if after everything the imageUrl remains an empty string, it means uploading the image to the server didn't go through, so we don't try to create the new project
-    if (imageUrl === '') {
+    if (imageUrl === "") {
       setStatusMessage({
         status: FAILED,
         message:
-          'Project Image not uploaded to CDN, Project not added. Try again',
+          "Project Image not uploaded to CDN, Project not added. Try again",
       });
 
       setSubmitBtnDisabled(true);
       return;
     }
 
-    if (mode === 'create') {
+    if (mode === "create") {
       await addProjectHandler(
         imageProjectId,
         formData.name,
@@ -194,7 +193,7 @@ function ProjectsModal() {
         formData.type,
         formData.featured
       );
-    } else if (mode === 'edit') {
+    } else if (mode === "edit") {
       await editProjectHandler(
         imageProjectId,
         formData.name,
@@ -256,7 +255,7 @@ function ProjectsModal() {
         includeProjectToList(addProjectResponse.data.project);
         setStatusMessage({
           status: SUCCESS,
-          message: 'Project successfully added!',
+          message: "Project successfully added!",
         });
       } else {
         setStatusMessage({
@@ -267,7 +266,7 @@ function ProjectsModal() {
     } catch (err) {
       setStatusMessage({
         status: FAILED,
-        message: 'Something went wrong! Project not added',
+        message: "Something went wrong! Project not added",
       });
       return;
     }
@@ -307,7 +306,7 @@ function ProjectsModal() {
         updateProjectInList(updateProjectResponse.data.project);
         setStatusMessage({
           status: SUCCESS,
-          message: 'Project updated successfully!',
+          message: "Project updated successfully!",
         });
       } else {
         setStatusMessage({
@@ -318,7 +317,7 @@ function ProjectsModal() {
     } catch (err) {
       setStatusMessage({
         status: FAILED,
-        message: 'Something went wrong! Project update not successful',
+        message: "Something went wrong! Project update not successful",
       });
       return;
     }
@@ -337,8 +336,9 @@ function ProjectsModal() {
             onSubmit={handleSubmit}
             className={Styles.Form}
             encType="multipart/form-data"
+            autoComplete="off"
           >
-            <h2>{mode === 'create' ? 'Add new Project' : 'Edit Project'}</h2>
+            <h2>{mode === "create" ? "Add new Project" : "Edit Project"}</h2>
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
@@ -346,7 +346,7 @@ function ProjectsModal() {
                 id="name"
                 placeholder="Project Title"
                 onChange={handleChange}
-                value={formData['name']}
+                value={formData["name"]}
               />
             </div>
 
@@ -357,7 +357,7 @@ function ProjectsModal() {
                 id="desc"
                 placeholder="Site Description"
                 onChange={handleChange}
-                value={formData['desc']}
+                value={formData["desc"]}
                 rows="5"
               ></textarea>
             </div>
@@ -374,7 +374,7 @@ function ProjectsModal() {
                 </select>
               </div>
               <div className={Styles.UploadOptionsWrapper}>
-                {imageUploadChoice === 'upload' ? (
+                {imageUploadChoice === "upload" ? (
                   <div
                     {...getRootProps({
                       className: `${Styles.DragNDropWrapper}`,
@@ -382,7 +382,7 @@ function ProjectsModal() {
                   >
                     <input
                       {...getInputProps({
-                        id: 'image',
+                        id: "image",
                       })}
                     />
                     {isAFileAccepted && acceptedFiles.map((file) => file.name)}
@@ -402,7 +402,7 @@ function ProjectsModal() {
                     id="image"
                     placeholder="Paste url for display cover"
                     onChange={handleChange}
-                    value={formData['image']}
+                    value={formData["image"]}
                   />
                 )}
               </div>
@@ -415,7 +415,7 @@ function ProjectsModal() {
                 id="link"
                 placeholder="URL"
                 onChange={handleChange}
-                value={formData['link']}
+                value={formData["link"]}
               />
             </div>
 
@@ -426,7 +426,7 @@ function ProjectsModal() {
                 id="icon1"
                 placeholder="Icon1"
                 onChange={handleChange}
-                value={formData['icon1']}
+                value={formData["icon1"]}
               />
             </div>
 
@@ -437,7 +437,7 @@ function ProjectsModal() {
                 id="icon2"
                 placeholder="Icon2"
                 onChange={handleChange}
-                value={formData['icon2']}
+                value={formData["icon2"]}
               />
             </div>
 
@@ -448,7 +448,7 @@ function ProjectsModal() {
                 id="icon3"
                 placeholder="Icon3"
                 onChange={handleChange}
-                value={formData['icon3']}
+                value={formData["icon3"]}
               />
             </div>
 
@@ -458,7 +458,7 @@ function ProjectsModal() {
                 type="string"
                 id="type"
                 onChange={handleChange}
-                value={formData['type']}
+                value={formData["type"]}
               />
             </div>
 
@@ -471,27 +471,27 @@ function ProjectsModal() {
                   id="featured"
                   name="featured"
                   onChange={handleChange}
-                  value={formData['featured']}
-                  checked={formData['featured']}
+                  value={formData["featured"]}
+                  checked={formData["featured"]}
                 />
               </span>
             </div>
 
-            <div className={' form-group ' + Styles.ButtonGroup}>
+            <div className={" form-group " + Styles.ButtonGroup}>
               <button
                 type="submit"
                 className={Styles.Submit}
                 ref={submitBtnRef}
               >
                 {processingRequest ? (
-                  'Processing...'
-                ) : mode === 'create' ? (
+                  "Processing..."
+                ) : mode === "create" ? (
                   <>
-                    <FaPlusCircle /> {' Add Project'}{' '}
+                    <FaPlusCircle /> {" Add Project"}{" "}
                   </>
                 ) : (
                   <>
-                    <FaEdit /> {' Make Changes'}
+                    <FaEdit /> {" Make Changes"}
                   </>
                 )}
               </button>
