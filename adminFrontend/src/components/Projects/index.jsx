@@ -117,7 +117,7 @@ function Projects() {
                               <span className={Styles.ProjectInfoType}>
                                 <p>Featured:</p>
                               </span>
-                              {project.featured === true ? "True": "False"}
+                              {project.featured === true ? "True" : "False"}
                             </div>
                           </article>
                         </div>

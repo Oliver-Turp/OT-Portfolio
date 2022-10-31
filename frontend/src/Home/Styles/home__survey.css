@@ -1,0 +1,280 @@
+/* GENERAL STYLES */
+
+.home__survey-wrap {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.home__survey-wrap h1 {
+  margin: 2rem 0;
+  font-size: 2.5rem;
+}
+
+.survey_tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 2rem;
+}
+
+.survey_tabs p:nth-of-type(1) {
+  border-left: 1px solid black;
+}
+
+.survey_tabs p {
+  padding: 1vh 0.5vw;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1.5rem;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.survey_tabs p:hover {
+  background-color: grey;
+}
+
+/* SERVICES|DETAILS STYLES */
+
+.survey_services {
+  width: 90vw;
+  margin: auto;
+}
+
+.service_card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 1vh;
+}
+
+.survey_services .column {
+  display: flex;
+  flex-direction: column;
+}
+
+.survey_services .row {
+  align-items: center;
+  margin: 1vh 0;
+  font-size: 1.25rem;
+  display: grid;
+  grid-template-columns: 0.1fr 0.8fr 0.1fr;
+}
+
+.service_card .row svg:first-of-type {
+  margin-left: auto;
+}
+
+.service_card .row p {
+  margin: auto;
+}
+
+.service_card .icon-hover {
+  margin-right: auto;
+}
+
+.service_card .icon-hover:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.service_card svg {
+  margin: 0 0.25vw;
+}
+
+.card_details {
+  border: 1px solid black;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.card_details.hidden {
+  display: none;
+}
+
+.card_details.show {
+  display: flex;
+}
+
+/* FORM|QUOTE STYLES */
+
+.survey_form {
+  width: 90vw;
+  margin: 0 auto;
+  /* DELETE ME */
+  display: none;
+}
+
+.form_tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 2rem;
+  width: 40vw;
+  border-top: 1px solid black;
+}
+
+.form_tab p {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 1vh 0.5vw;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.form_tab:nth-of-type(1) p {
+  border-left: 1px solid black;
+}
+
+.form_tab p:hover {
+  background-color: grey;
+}
+
+.progress-bar {
+  height: 1.5vh;
+  width: 100%;
+  margin: 0 auto 0;
+}
+
+.progress-bar.complete {
+  background: rgb(77, 172, 106);
+}
+
+.progress-bar.active {
+  background: rgb(77, 172, 106);
+  background: linear-gradient(
+    90deg,
+    rgba(77, 172, 106, 1) 0%,
+    rgba(77, 172, 106, 0) 50%
+  );
+}
+
+.form_page {
+  width: 100%;
+  padding: 0 2rem;
+  display: grid;
+  grid-column-gap: 1vw;
+}
+
+.form_page button {
+  cursor: pointer;
+  color: #fff;
+  background-color: #4dac6a;
+  border: 1px solid #4dac6a;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  text-transform: capitalize;
+  transition: background 0.4s ease-in-out;
+  font-size: 1rem;
+}
+
+.form_question {
+  display: flex;
+  flex-direction: column;
+}
+
+.form_question label {
+  position: relative;
+  padding-bottom: 0.5vh;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.form_question sup {
+  color: red;
+  position: absolute;
+}
+
+.form_question input,
+.form-select {
+  border: none;
+  background-color: lightgray;
+  text-align: center;
+  padding: 0.25vh 0;
+  letter-spacing: 0.05vw;
+  margin-bottom: 1.5vh;
+  text-transform: capitalize;
+}
+
+.form_question .form-select {
+  cursor: pointer;
+}
+
+.form_question i {
+  text-transform: none;
+  color: #8a7f80;
+}
+
+.form_question .lowercase {
+  text-transform: none;
+}
+
+#survey-deadline {
+  text-transform: uppercase;
+}
+
+#survey-success {
+  resize: vertical;
+  text-align: center;
+  padding: 2vh 0 2.5vh;
+  margin-bottom: 1.5vh;
+  color: #8a7f80;
+  background-color: lightgray;
+}
+
+.form_page.grid_3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form_page.grid_3 h3 {
+  grid-column: 1/4;
+  margin-bottom: 0.5vh;
+}
+
+.form_page.grid_3 sup {
+  right: -0.4vw;
+}
+
+.form_page.grid_3 button {
+  grid-column: 2/3;
+  max-width: 50%;
+  margin: auto;
+}
+
+.form_page.grid_2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.form_page.grid_2 h3 {
+  grid-column: 1/3;
+  margin-bottom: 0.5vh;
+}
+
+.form_page.grid_2 sup {
+  right: -0.5vw;
+}
+
+.form_page.grid_2 button {
+  grid-column: 1/3;
+  max-width: 50%;
+}
+
+.form_page.grid_2 .form_btn-left {
+  margin-left: auto;
+}
+
+.form_page.grid_2 .form_btn-right {
+  margin-right: auto;
+}
+
+.form_page.grid_2 .form_double {
+  grid-column: 1/3;
+}

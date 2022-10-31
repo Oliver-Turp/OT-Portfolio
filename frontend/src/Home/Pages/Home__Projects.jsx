@@ -1,49 +1,48 @@
-import { Link } from 'react-router-dom';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Link } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import WebsiteData from '../Components/Home__Projects_Websites-Data';
-import UIData from '../Components/Home__Sandbox_UI-Data';
-import { useContentContext } from '../Context/ContentProvider';
+import UIData from "../Components/Home__Sandbox_UI-Data";
+import { useContentContext } from "../Context/ContentProvider";
 
-import '../Styles/home__projects.css';
+import "../Styles/home__projects.css";
 
 const Home__Projects = () => {
   const { projects } = useContentContext();
 
   const StaticSites = projects.filter(function (section) {
-    return section.type === 'Static Site';
+    return section.type === "Static Site";
   });
 
   const ReactApps = projects.filter(function (section) {
-    return section.type === 'React App';
+    return section.type === "React App";
   });
 
   const OnlineStores = projects.filter(function (section) {
-    return section.type === 'OnlineStore';
+    return section.type === "Online Store";
   });
 
   const PersonalProjects = projects.filter(function (section) {
-    return section.type === 'Personal Project';
+    return section.type === "Personal Project";
   });
 
   const UIHeaders = UIData.filter(function (item) {
-    return item.section === 'Header';
+    return item.section === "Header";
   });
 
   const UIImages = UIData.filter(function (item) {
-    return item.section === 'Images';
+    return item.section === "Images";
   });
 
   const UIContact = UIData.filter(function (item) {
-    return item.section === 'Contact';
+    return item.section === "Contact";
   });
 
   const UIFooters = UIData.filter(function (item) {
-    return item.section === 'Footer';
+    return item.section === "Footer";
   });
 
   const UITheme = UIData.filter(function (item) {
-    return item.section === 'Theme';
+    return item.section === "Theme";
   });
 
   const UIContentCount =
@@ -68,9 +67,9 @@ const Home__Projects = () => {
               <div className="home__projects-content_grid">
                 {StaticSites.map((card) => (
                   <div className="home__projects_card-wrap" key={card.id}>
-                    <Link to={card.link} target="_blank">
+                    <a href={card.link} target="_blank">
                       <img src={card.image} alt={card.name} />
-                    </Link>
+                    </a>
                     <div className="home__projects_card-body">
                       <h5>{card.name}</h5>
                       <p>{card.desc}</p>
@@ -92,9 +91,9 @@ const Home__Projects = () => {
               <div className="home__projects-content_grid">
                 {ReactApps.map((card) => (
                   <div className="home__projects_card-wrap" key={card.id}>
-                    <Link to={card.link} target="_blank">
+                    <a href={card.link} target="_blank">
                       <img src={card.image} alt={card.name} />
-                    </Link>
+                    </a>
                     <div className="home__projects_card-body">
                       <h5>{card.name}</h5>
                       <p>{card.desc}</p>
@@ -116,9 +115,9 @@ const Home__Projects = () => {
               <div className="home__projects-content_grid">
                 {OnlineStores.map((card) => (
                   <div className="home__projects_card-wrap" key={card.id}>
-                    <Link to={card.link} target="_blank">
+                    <a href={card.link} target="_blank">
                       <img src={card.image} alt={card.name} />
-                    </Link>
+                    </a>
                     <div className="home__projects_card-body">
                       <h5>{card.name}</h5>
                       <p>{card.desc}</p>
@@ -140,9 +139,9 @@ const Home__Projects = () => {
               <div className="home__projects-content_grid">
                 {PersonalProjects.map((card) => (
                   <div className="home__projects_card-wrap" key={card.id}>
-                    <Link to={card.link} target="_blank">
+                    <a href={card.link} target="_blank">
                       <img src={card.image} alt={card.name} />
-                    </Link>
+                    </a>
                     <div className="home__projects_card-body">
                       <h5>{card.name}</h5>
                       <p>{card.desc}</p>

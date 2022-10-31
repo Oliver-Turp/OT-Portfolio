@@ -3,7 +3,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import Temp from "../Assets/Images/Glados.jpg";
 import { useContentContext } from "../Context/ContentProvider";
-import WebsiteData from "../Components/Home__Projects_Websites-Data";
 import LightBG from "../Assets/Images/CubePattern.jpg";
 import DarkBG from "../Assets/Images/DarkBG.mp4";
 
@@ -16,7 +15,7 @@ const Home__Index = () => {
     return item.featured === true;
   });
 
-  console.log(projects)
+  console.log(projects);
 
   return (
     <>

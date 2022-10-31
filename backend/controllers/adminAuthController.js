@@ -11,14 +11,14 @@ const registerAdmin = async (req, res) => {
     //return a response to user. The object you pass to the json() is totally up to you.
     // the return keyword is here so that the function doesn't continue running. You don't want to send a res.json() twice, that wouldn't make sense
     return res
-    .status(400)
-    .json({ success: false, message: "Username or Password is empty" });
+      .status(400)
+      .json({ success: false, message: "Username or Password is empty" });
   }
-  
-  const { username, password } = req.body;
+
+  let { username, password } = req.body;
   // this line is to make the username supplied by client request to be case INsenSITive. The issue was trying to convert the text to lowercase when you're not even sure if there's a value
   username = username.toLowerCase();
-  
+
   try {
     // generate a salt needed to hash the password
     const salt = await bcrypt.genSalt(10);

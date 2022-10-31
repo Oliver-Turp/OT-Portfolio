@@ -1,10 +1,10 @@
 {
-  "name": "ollieapp",
+  "name": "ot-portfolio__main",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm:dev --prefix backend\"  \"npm:dev --prefix frontend\"  \"npm:dev --prefix adminFrontend\"  \"npm:dev --prefix fileServerBackend\""
+    "dev": "concurrently \"npm:dev --prefix backend\" \"npm:dev --prefix fileServerBackend\" \"npm:dev --prefix adminFrontend\" \"npm:dev --prefix frontend\""
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/MikeyOnyedika/ollieProject#readme",
   "dependencies": {
-    "concurrently": "^7.4.0"
+    "concurrently": "^7.5.0"
   }
 }

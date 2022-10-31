@@ -38,7 +38,7 @@ function startServer() {
   app.delete("/upload", protect, deleteImage);
 
   const PORT = 4444;
-  app.listen(PORT, () => console.log("Image Server listening on port " + PORT));
+  app.listen(PORT, () => console.log("File Server Listening On Port " + PORT));
 }
 
 //only start server if mongodb is connected.
