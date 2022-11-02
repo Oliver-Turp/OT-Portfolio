@@ -16,3 +16,15 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
 }
+
+
+.swiper-pagination-bullet{
+  width: 0.8rem !important;
+  height: 0.8rem !important; 
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #000 !important;
+  width: 1rem !important;
+  height: 1rem !important;
+}

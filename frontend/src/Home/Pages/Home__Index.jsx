@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Link } from 'react-router-dom';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import Temp from "../Assets/Images/Glados.jpg";
-import { useContentContext } from "../Context/ContentProvider";
-import LightBG from "../Assets/Images/CubePattern.jpg";
-import DarkBG from "../Assets/Images/DarkBG.mp4";
 
-import "../Styles/home__index.css";
+import Temp from '../Assets/Images/Glados.jpg';
+import { useContentContext } from '../Context/ContentProvider';
+import WebsiteData from '../Components/Home__Projects_Websites-Data';
+import LightBG from '../Assets/Images/CubePattern.jpg';
+import DarkBG from '../Assets/Images/DarkBG.mp4';
+import '../Styles/home__index.css';
+import TechSlider from '../Components/TechSlider';
 
 const Home__Index = () => {
   const { projects } = useContentContext();
@@ -89,8 +91,8 @@ const Home__Index = () => {
           </div>
         </div>
         <div className="home__index-wrap_section-wrap">
-          {/* <h2>technologies i've worked with</h2> */}
-          {/* <TechSlider /> */}
+          <h2>technologies i've worked with</h2>
+          <TechSlider />
         </div>
       </div>
     </>
