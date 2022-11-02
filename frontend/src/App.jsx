@@ -17,19 +17,6 @@ import {
 } from "./Home/Home__Exports";
 
 import {
-  PM__Comments,
-  PM__Contact,
-  PM__Discord,
-  PM__Friends,
-  PM__Home,
-  PM__Patreon,
-  PM__TCG,
-  PM__WOF,
-  PM__YouTube,
-  PM__Nav,
-} from "./Sandbox/Phoenix_Media/PhoenixMedia__Exports";
-
-import {
   Horizontal,
   DropDown,
   Hamburger,
@@ -45,6 +32,8 @@ import {
 } from "./Sandbox/Examples/ExamplesExports";
 
 import Error from "./Error";
+
+import Home__Survey from "./Home/Components/Home__Survey";
 
 function App() {
   const Wrapper = ({ children }) => {
@@ -65,18 +54,7 @@ function App() {
             <Route path="contact" element={<Home__Contact />} />
             <Route path="projects" element={<Home__Projects />} />
             <Route path="services" element={<Home__Services />} />
-          </Route>
-          {/* PM ROUTES */}
-          <Route path="/sandbox/projects/phoenixmedia" element={<PM__Nav />}>
-            <Route index element={<PM__Home />} />
-            <Route path="comments" element={<PM__Comments />} />
-            <Route path="contact" element={<PM__Contact />} />
-            <Route path="discord" element={<PM__Discord />} />
-            <Route path="friends" element={<PM__Friends />} />
-            <Route path="patreon" element={<PM__Patreon />} />
-            <Route path="turpochargedgaming" element={<PM__TCG />} />
-            <Route path="walloffame" element={<PM__WOF />} />
-            <Route path="youtube" element={<PM__YouTube />} />
+            <Route path="survey" element={<Home__Survey />} />
           </Route>
           {/* SANDBOX ROUTES */}
           {/* HEADERS */}

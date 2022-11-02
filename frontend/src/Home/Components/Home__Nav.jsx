@@ -23,6 +23,7 @@ const Home__Nav = () => {
             <div className="home__header-wrap_content-right">
               <NavLink
                 to="/"
+                end
                 className={({ isActive }) =>
                   isActive ? "homeLink active" : "homeLink inactive"
                 }
