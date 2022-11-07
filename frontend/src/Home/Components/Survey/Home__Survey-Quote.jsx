@@ -7,64 +7,47 @@ import ProjectOverview from './Quote__Form--Project-Overview';
 import ServicesDevelopment from './Quote__Form--Services-Development';
 import ServicesProduction from './Quote__Form--Services-Production';
 import YourDetails from './Quote__Form--Your-Details';
+import { formPartsData } from '../../Data/quoteFormPartsData';
+
+const INITIAL_FORM_STATE = {
+  email: '',
+  fullName: '',
+  phone: '',
+  surveyManager: '',
+  decisionMakers: '',
+  budget: '',
+  deadline: '',
+  successDescription: '',
+  pageCount: '',
+  pageList: '',
+  contactFormCount: '',
+  levelOfSEO: '',
+  domainName: '',
+  topLevelDomain: '',
+  emailCount: '',
+  supportLevel: '',
+};
 
 const Home__Survey_Quote = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    fullName: '',
-    phone: '',
-    surveyManager: '',
-    decisionMakers: '',
-    budget: '',
-    deadline: '',
-    successDescription: '',
-    pageCount: '',
-    pageList: '',
-    contactFormCount: '',
-    levelOfSEO: '',
-    domainName: '',
-    topLevelDomain: '',
-    emailCount: '',
-    supportLevel: '',
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
+  // const [formCompleted, setFormCompleted] = useState(false);
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
-
-  const formPartsData = [
-    {
-      title: 'Your Details',
-      caption: 'Your Details',
-    },
-    {
-      title: 'Project Overview',
-      caption: 'Project Overview',
-    },
-    {
-      title: 'Development',
-      caption: 'Services Required',
-    },
-    {
-      title: 'Production',
-      caption: 'Services Required',
-    },
-  ];
 
   function updateFields(fields) {
     setFormData((prevValue) => {
       return { ...prevValue, ...fields };
     });
   }
-  const surveryFormParts = [
-    <YourDetails { ...formData } updateFields={updateFields} />,
-    <ProjectOverview formData={formData} updateFields={updateFields} />,
-    <ServicesDevelopment formData={formData} updateFields={updateFields} />,
-    <ServicesProduction formData={formData} updateFields={updateFields} />,
-  ];
 
-  const { step, steps, stepId, prev, next } =
-    useMultiStepForm(surveryFormParts);
+  const { step, steps, stepId, prev, next } = useMultiStepForm([
+    <YourDetails {...formData} updateFields={updateFields} />,
+    <ProjectOverview {...formData} updateFields={updateFields} />,
+    <ServicesDevelopment {...formData} updateFields={updateFields} />,
+    <ServicesProduction {...formData} updateFields={updateFields} />,
+  ]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -72,24 +55,31 @@ const Home__Survey_Quote = () => {
     if (stepId !== steps.length - 1) {
       return next();
     }
+
+    console.log(formData);
+    setFormData(INITIAL_FORM_STATE);
+    alert('Congrats for finishing the form!!');
   }
 
   return (
     <aside className="survey_form">
       <section className="form_tabs-wrapper">
         <div className="form_tabs">
-          {surveryFormParts.map((part, index) => (
+          {steps.map((part, index) => (
             <div className="form_tab" key={index}>
               <p>{formPartsData[index].title}</p>
             </div>
           ))}
         </div>
         <div className="form_tabs">
-          {surveryFormParts.map((part, index) => (
+          {steps.map((part, index) => (
             <div
               key={index}
               className={`progress-bar ${
-                index < stepId ? 'completed' : index === stepId ? 'active' : ''
+                // formCompleted
+                //   ? 'complete'
+                //   :
+                index < stepId ? 'complete' : index === stepId ? 'active' : ''
               } `}
             ></div>
           ))}
@@ -101,14 +91,18 @@ const Home__Survey_Quote = () => {
         <div className="form_button-group">
           {stepId !== 0 && (
             <section className="form_question">
-              <button className="form_btn-left" onClick={() => prev()}>
+              <button
+                className="form_btn-left"
+                type="button"
+                onClick={() => prev()}
+              >
                 Previous
               </button>
             </section>
           )}
           {
             <section className="form_question">
-              <button className="form_btn-left">
+              <button className="form_btn-left" type="submit">
                 {stepId === steps.length - 1 ? 'Submit' : 'Next'}
               </button>
             </section>

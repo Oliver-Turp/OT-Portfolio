@@ -1,14 +1,14 @@
 import React from 'react';
-import { useState } from 'react';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 const YourDetails = (props) => {
-  const {fullName, email, phone,  updateFields } = props;
-  // const { fullName, email, phone} = formData
-  // TODO: SO SOMEHOW, THE THIS COMPONENT DOES NOT RERENDER WHEN THE PROPS CHANGE.
+  const {fullName, email, phone,  updateFields} = props
+
   useEffect(() => {
-    console.log("formData from details: ", {fullName, email, phone})
+    console.log("Props on Details: ", props)
   })
+
   return (
     <>
       <h3>your details</h3>
@@ -22,8 +22,9 @@ const YourDetails = (props) => {
           name="survey-name"
           placeholder="Your Full Name"
           value={fullName}
-
-          onChange={(e) => updateFields({ fullName: e.target.value })}
+          onChange={(e) => {
+            updateFields({ fullName: e.target.value });
+          }}
           required
         />
       </section>
@@ -37,7 +38,9 @@ const YourDetails = (props) => {
           name="survey-email"
           placeholder="YourEmail@Domain.com"
           value={email}
-          onChange={(e) => updateFields({ email: e.target.value })}
+          onChange={(e) => {
+            updateFields({ email: e.target.value });
+          }}
           required
         />
       </section>
@@ -49,7 +52,9 @@ const YourDetails = (props) => {
           name="survey-phone"
           placeholder="+<country_code> 123456789"
           value={phone}
-          onChange={(e) => updateFields({ phone: e.target.value })}
+          onChange={(e) => {
+            updateFields({ phone: e.target.value });
+          }}
         />
       </section>
     </>

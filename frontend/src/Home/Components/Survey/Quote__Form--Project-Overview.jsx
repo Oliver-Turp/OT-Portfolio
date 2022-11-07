@@ -1,7 +1,14 @@
 import React from 'react';
 
 import Form from 'react-bootstrap/Form';
-const ProjectOverview = () => {
+const ProjectOverview = ({
+  surveyManager,
+  decisionMakers,
+  budget,
+  deadline,
+  successDescription,
+  updateFields,
+}) => {
   return (
     <>
       <h3>project overview</h3>
@@ -9,7 +16,11 @@ const ProjectOverview = () => {
         <label htmlFor="survey-manager">
           are you the project manager? <sup>*</sup>
         </label>
-        <Form.Select name="survey-manager">
+        <Form.Select
+          name="survey-manager"
+          value={surveyManager}
+          onChange={(e) => updateFields({ surveyManager: e.target.value })}
+        >
           <option hidden>yes / no</option>
           <option value="yes">yes</option>
           <option value="no">no</option>
@@ -19,7 +30,15 @@ const ProjectOverview = () => {
         <label htmlFor="survey-decision">
           how many decision makers are there? <sup>*</sup>
         </label>
-        <input type="number" name="survey-decision" step="1" min="1" required />
+        <input
+          type="number"
+          name="survey-decision"
+          step="1"
+          min="1"
+          required
+          value={decisionMakers}
+          onChange={(e) => updateFields({ decisionMakers: e.target.value })}
+        />
       </section>
       <section className="form_question">
         <label htmlFor="survey-budget">
@@ -30,7 +49,8 @@ const ProjectOverview = () => {
           name="survey-budget"
           id="survey-budget"
           placeholder="£1,000,000.00"
-          value=""
+          value={budget}
+          onChange={(e) => updateFields({ budget: e.target.value })}
           datatype="currency"
         />
       </section>
@@ -42,7 +62,8 @@ const ProjectOverview = () => {
           type="date"
           name="survey-deadline"
           id="survey-deadline"
-          value=""
+          value={deadline}
+          onChange={(e) => updateFields({ deadline: e.target.value })}
         />
       </section>
       <section className="form_question form_double">
@@ -54,6 +75,8 @@ const ProjectOverview = () => {
           id="survey-success"
           placeholder="Any Additional Information Would Be Very Helpful!"
           rows="1"
+          value={successDescription}
+          onChange={(e) => updateFields({ successDescription: e.target.value })}
           required
         ></textarea>
       </section>

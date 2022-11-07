@@ -2,15 +2,13 @@ import React from 'react';
 import {useState} from 'react'
 import { useTabs } from './useTabs';
 
-const useMultiStepForm = (_formParts) => {
+const useMultiStepForm = (steps) => {
   // const { goToTab, tab, tabId, tabs, setTabs } = useTabs(
   //   formParts,
   //   formParts[0].id
   // );
 
   const [stepId, setCurrentStepId] = useState(0);
-
-  const [steps, setSteps] = useState(_formParts);
 
   function goToStep(id) {
     setCurrentStepId(id);
@@ -31,7 +29,6 @@ const useMultiStepForm = (_formParts) => {
     steps,
     next,
     prev,
-    setSteps,
   };
 };
 

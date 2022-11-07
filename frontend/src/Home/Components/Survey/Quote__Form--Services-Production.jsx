@@ -1,7 +1,13 @@
 import React from 'react';
 
 import Form from 'react-bootstrap/Form';
-const ServicesProduction = () => {
+const ServicesProduction = ({
+  domainName,
+  topLevelDomain,
+  emailCount,
+  supportLevel,
+  updateFields,
+}) => {
   return (
     <>
       <h3>
@@ -19,6 +25,8 @@ const ServicesProduction = () => {
           name="survey-domainName"
           placeholder="YourSiteName"
           required
+          value={domainName}
+          onChange={(e) => updateFields({ domainName: e.target.value })}
         />
       </section>
       <section className="form_question">
@@ -27,7 +35,12 @@ const ServicesProduction = () => {
           <br />
           <i>www. | YourSiteName | .something</i>
         </label>
-        <Form.Select className="lowercase" name="domainType">
+        <Form.Select
+          className="lowercase"
+          name="domainType"
+          value={topLevelDomain}
+          onChange={(e) => updateFields({ topLevelDomain: e.target.value })}
+        >
           <option hidden>.something</option>
           <option value=".co.uk">.co.uk</option>
           <option value=".uk">.uk</option>
@@ -59,6 +72,8 @@ const ServicesProduction = () => {
           step="1"
           min="0"
           required
+          value={emailCount}
+          onChange={(e) => updateFields({ emailCount: e.target.value })}
         />
       </section>
       <section className="form_question">
@@ -66,13 +81,14 @@ const ServicesProduction = () => {
           what level of support will you need? <sup>*</sup>
         </label>
         <Form.Select name="survey-support">
+          value={supportLevel}
+          onChange={(e) => updateFields({ supportLevel: e.target.value })}
           <option hidden>low / high / highest</option>
           <option value="low">low</option>
           <option value="high">high</option>
           <option value="highest">highest</option>
         </Form.Select>
       </section>
- 
     </>
   );
 };
