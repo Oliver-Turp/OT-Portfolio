@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { motion as m } from "framer-motion";
+import { motion as m, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 import CV from "../Assets/Pdfs/Civil Engineering Degree.pdf";
 import Degree from "../Assets/Pdfs/Oliver Turp Resume_Optimised.pdf";
@@ -10,6 +12,29 @@ import Degree from "../Assets/Pdfs/Oliver Turp Resume_Optimised.pdf";
 import "../Styles/home__about.css";
 
 const Home__About = () => {
+  const { ref, inView } = useInView();
+
+  const animation = useAnimation();
+
+  useEffect(() => {
+    if (inView) {
+      animation.start({
+        x: 0,
+        transition: {
+          type: "spring",
+          duration: 1,
+          bounce: 0.3,
+        },
+      });
+    }
+    if (!inView) {
+      animation.start({
+        x: "-100vw",
+      });
+    }
+    console.log("use effect hook, inView = ", inView);
+  }, [inView]);
+
   return (
     <>
       <HelmetProvider>
@@ -47,14 +72,22 @@ const Home__About = () => {
               Download my degree
             </Link>
           </div>
-          <section className="home__about-wrap_content_transferableSkills">
+          <m.section
+            className="home__about-wrap_content_transferableSkills"
+            animate={animation}
+            ref={ref}
+          >
             <h2>transferable skills</h2>
             <p>
               the following skills are those which I apply to every job or task
               i do
             </p>
-          </section>
-          <div className="home__about-wrap_content-list">
+          </m.section>
+          <m.div
+            className="home__about-wrap_content-list"
+            animate={animation}
+            ref={ref}
+          >
             <p>
               <FontAwesomeIcon icon={faCheck} />
               <strong> people skills: </strong>i live and work in a diverse
@@ -88,15 +121,23 @@ const Home__About = () => {
               <strong> back office: </strong>book-keeping, petty cash, banking
               and all aspects of stock control and sales of merchandise.
             </p>
-          </div>
-          <section className="home__about-wrap_content_technicalSkills">
+          </m.div>
+          <m.section
+            className="home__about-wrap_content_technicalSkills"
+            animate={animation}
+            ref={ref}
+          >
             <h2>technical skills</h2>
             <p>
               I have experience with the following list, which i'm always
               looking to expand to learn more!
             </p>
-          </section>
-          <div className="home__about-wrap_content-list">
+          </m.section>
+          <m.div
+            className="home__about-wrap_content-list"
+            animate={animation}
+            ref={ref}
+          >
             <p>
               <FontAwesomeIcon icon={faArrowRight} />
               <strong> </strong>
@@ -138,7 +179,7 @@ const Home__About = () => {
               <FontAwesomeIcon icon={faArrowRight} /> <strong> </strong>
               mongoDB / NoSQL
             </p>
-          </div>
+          </m.div>
         </div>
       </m.div>
     </>
