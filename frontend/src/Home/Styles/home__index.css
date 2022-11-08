@@ -8,7 +8,7 @@
   height: 100%;
   width: 100vw;
   margin-bottom: 3rem;
-  position: relative
+  position: relative;
 }
 
 .home__index-wrap_bio-wrap video,
@@ -83,4 +83,19 @@ body.Dark .home__bio-vid.Dark {
 
 .home__index-wrap_section-wrap h2 {
   margin-bottom: 1.5rem;
+}
+
+/* SLIDER STYLES */
+.index_slide {
+  display: flex;
+}
+
+/* .index_slide div {
+  height: auto;
+  width: 50%;
+} */
+
+.index_slide div img {
+  height: 100%;
+  width: 100%;
 }

@@ -1,14 +1,14 @@
-import { Link } from 'react-router-dom';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Link } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Typewriter } from "react-simple-typewriter";
 
+import Temp from "../Assets/Images/Glados.jpg";
+import { useContentContext } from "../Context/ContentProvider";
+import LightBG from "../Assets/Images/LightBG.mp4";
+import DarkBG from "../Assets/Images/DarkBG.mp4";
+import TechSlider from "../Components/TechSlider";
 
-import Temp from '../Assets/Images/Glados.jpg';
-import { useContentContext } from '../Context/ContentProvider';
-// import WebsiteData from '../Components/Home__Projects_Websites-Data';
-import LightBG from '../Assets/Images/CubePattern.jpg';
-import DarkBG from '../Assets/Images/DarkBG.mp4';
-import '../Styles/home__index.css';
-import TechSlider from '../Components/TechSlider';
+import "../Styles/home__index.css";
 
 const Home__Index = () => {
   const { projects } = useContentContext();
@@ -28,10 +28,9 @@ const Home__Index = () => {
       </HelmetProvider>
       <div className="home__index-wrap">
         <div className="home__index-wrap_bio-wrap">
-          {/* <video className="home__bio-vid Light" autoPlay muted loop>
+          <video className="home__bio-vid Light" autoPlay muted loop>
             <source src={LightBG} type="video/mp4" />
-          </video> */}
-          <img className="home__bio-vid Light" src={LightBG} alt="banner" />
+          </video>
           <video className="home__bio-vid Dark" autoPlay muted loop>
             <source src={DarkBG} type="video/mp4" />
           </video>
@@ -40,7 +39,23 @@ const Home__Index = () => {
               <img src={Temp} alt="Temp" />
             </div>
             <div className="home__index-wrap_bio-content_text">
-              <h1>Hello, I'm Oliver!</h1>
+              <h1>
+                Hello, my name is Oliver!
+                <Typewriter words={[" I am"]} loop={1} cursor={false} />
+                <Typewriter
+                  words={[
+                    "",
+                    "",
+                    " an engineer",
+                    "",
+                    " a web developer",
+                    "",
+                    " a data analyst",
+                  ]}
+                  loop={false}
+                  cursor={true}
+                />
+              </h1>
               <p>
                 I am a bachelor of engineering (BEng) having graduated with
                 upper second class honours in civil engineering.

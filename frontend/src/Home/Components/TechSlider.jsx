@@ -1,14 +1,25 @@
-import React from 'react';
 // import required modules
-import { Autoplay, Navigation } from 'swiper';
+import { Autoplay, Navigation } from "swiper";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // import required modules
-import { Pagination } from 'swiper';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+//slide 1
+import HTML5 from "../Assets/Images/HTML5.png";
+import CSS3 from "../Assets/Images/CSS3.png";
+import JS from "../Assets/Images/JS.png";
+import React from "../Assets/Images/React.png";
+
+//slide 2
+import CPanel from "../Assets/Images/cPanel.png";
+import Git from "../Assets/Images/Git.png";
+import MongoDB from "../Assets/Images/MongoDB.png";
+import MySQL from "../Assets/Images/MySQL.png";
 
 const TechSlider = () => {
   return (
@@ -16,6 +27,7 @@ const TechSlider = () => {
       speed={1000}
       spaceBetween={30}
       centeredSlides={true}
+      loop={true}
       autoplay={{
         delay: 1500,
         disableOnInteraction: false,
@@ -23,43 +35,63 @@ const TechSlider = () => {
       pagination={{
         clickable: true,
       }}
-      //   navigation={true}
+      navigation={true}
       modules={[Autoplay, Pagination, Navigation]}
-      style={{ width: '100%', height: '20rem' }}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 60,
+        },
+      }}
     >
-      <SwiperSlide
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gap: '3rem',
-        }}
-      >
-        <div style={{ backgroundColor: 'red' }}>CSS</div>
-        <div style={{ backgroundColor: 'blue' }}>HTML</div>
-        <div style={{ backgroundColor: 'yellow' }}>JS</div>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={HTML5} alt="html5" />
+        </div>
       </SwiperSlide>
-     <SwiperSlide
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gap: '3rem',
-        }}
-      >
-        <div style={{ backgroundColor: 'rosered' }}>Bootstrap</div>
-        <div style={{ backgroundColor: 'hotpink' }}>TailwindCSS</div>
-        <div style={{ backgroundColor: 'rebeccapurple' }}>Reactjs</div>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={CSS3} alt="css3" />
+        </div>
+      </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={JS} alt="js" />
+        </div>
+      </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={React} alt="react" />
+        </div>
       </SwiperSlide>
 
-     <SwiperSlide
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gap: '3rem',
-        }}
-      >
-        <div style={{ backgroundColor: 'violet' }}>Node/Expressjs</div>
-        <div style={{ backgroundColor: 'paleblue' }}>Golang</div>
-        <div style={{ backgroundColor: 'gray' }}>PHP</div>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={CPanel} alt="cpanel" />
+        </div>
+      </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={Git} alt="git" />
+        </div>
+      </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={MongoDB} alt="mongodb" />
+        </div>
+      </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={MySQL} alt="mysql" />
+        </div>
       </SwiperSlide>
     </Swiper>
   );
