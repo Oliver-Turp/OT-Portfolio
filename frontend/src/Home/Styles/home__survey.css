@@ -20,13 +20,14 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto 2rem;
+  gap: rem;
 }
 
-.survey_tabs p:nth-of-type(1) {
+/* .survey_tabs button:nth-of-type(1) {
   border-left: 1px solid black;
-}
+} */
 
-.survey_tabs p {
+.survey_tabs button {
   padding: 1vh 0.5vw;
   cursor: pointer;
   font-weight: 500;
@@ -34,9 +35,14 @@
   border-right: 1px solid black;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
+  text-transform: capitalize;  
 }
 
-.survey_tabs p:hover {
+.survey_tabs button.active{
+  background-color:  grey;
+}
+
+.survey_tabs button:hover {
   background-color: grey;
 }
 
@@ -51,6 +57,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1vh;
+  gap:  1rem;
 }
 
 .survey_services .column {
@@ -58,12 +65,17 @@
   flex-direction: column;
 }
 
-.survey_services .row {
+.survey_services .row { 
   align-items: center;
-  margin: 1vh 0;
+  padding: 1vh 0;
   font-size: 1.25rem;
   display: grid;
   grid-template-columns: 0.1fr 0.8fr 0.1fr;
+  cursor: pointer;
+}
+
+.survey_services .row.row-active{
+  background-color: gray;
 }
 
 .service_card .row svg:first-of-type {
@@ -107,24 +119,24 @@
 .survey_form {
   width: 90vw;
   margin: 0 auto;
-  /* DELETE ME */
-  display: none;
+
 }
 
-.form_tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+.form_tabs-wrapper{
+  display: flex;
+  /* grid-template-rows: 1fr 1fr 1fr 1fr; */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0 auto 2rem;
-  width: 40vw;
+  max-width: 40rem;
   border-top: 1px solid black;
 }
 
 .form_tab p {
   border-right: 1px solid black;
   border-bottom: 1px solid black;
-  padding: 1vh 0.5vw;
+  padding: 0.5rem 0.5vw;
   cursor: pointer;
   font-weight: 500;
   font-size: 1rem;
@@ -137,6 +149,15 @@
 .form_tab p:hover {
   background-color: grey;
 }
+
+/*  */
+.form_tabs{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  width: 100%;
+}
+
 
 .progress-bar {
   height: 1.5vh;
@@ -164,7 +185,15 @@
   grid-column-gap: 1vw;
 }
 
-.form_page button {
+/*   */
+.form_button-group{
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+
+.form_button-group button {
   cursor: pointer;
   color: #fff;
   background-color: #4dac6a;
@@ -175,6 +204,11 @@
   transition: background 0.4s ease-in-out;
   font-size: 1rem;
 }
+
+.form_button-group button:hover{
+  background-color: #1d7c3a;
+}
+
 
 .form_question {
   display: flex;
