@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { motion as m } from "framer-motion";
 
 import CV from "../Assets/Pdfs/Civil Engineering Degree.pdf";
 import Degree from "../Assets/Pdfs/Oliver Turp Resume_Optimised.pdf";
@@ -17,7 +17,12 @@ const Home__About = () => {
           <title>Oliver Turp | About</title>
         </Helmet>
       </HelmetProvider>
-      <div className="home__about-wrap">
+      <m.div
+        className="home__about-wrap"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
+      >
         <div className="home__about-wrap_content">
           <h1>about me</h1>
           <section className="home__about-wrap_content_personalProfile">
@@ -135,7 +140,7 @@ const Home__About = () => {
             </p>
           </div>
         </div>
-      </div>
+      </m.div>
     </>
   );
 };

@@ -18,6 +18,7 @@
     "better-react-carousel": "^1.1.1",
     "bootstrap": "^5.2.2",
     "esbuild-windows-64": "^0.15.13",
+    "framer-motion": "^7.6.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import emailjs from "@emailjs/browser";
+import { motion as m } from "framer-motion";
 
 import "../Styles/home__contact.css";
 
@@ -46,7 +47,12 @@ const Home__Contact = () => {
           <title>Oliver Turp | Contact</title>
         </Helmet>
       </HelmetProvider>
-      <div className="home__contact-wrap">
+      <m.div
+        className="home__contact-wrap"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
+      >
         <div className="home__contact-wrap_margin">
           <h1>contact me</h1>
           <div className="home__contact-wrap_content-wrap">
@@ -139,7 +145,7 @@ const Home__Contact = () => {
             </div>
           </div>
         </div>
-      </div>
+      </m.div>
     </>
   );
 };

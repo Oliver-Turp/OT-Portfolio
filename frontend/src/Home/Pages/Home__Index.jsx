@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Typewriter } from "react-simple-typewriter";
+import { motion as m } from "framer-motion";
 
 import Temp from "../Assets/Images/Glados.jpg";
+import Logo from "../Assets/Images/CV Logo 2.png";
 import { useContentContext } from "../Context/ContentProvider";
 import LightBG from "../Assets/Images/LightBG.mp4";
 import DarkBG from "../Assets/Images/DarkBG.mp4";
@@ -26,17 +28,34 @@ const Home__Index = () => {
           <title>Oliver Turp | Home</title>
         </Helmet>
       </HelmetProvider>
-      <div className="home__index-wrap">
-        <div className="home__index-wrap_bio-wrap">
-          <video className="home__bio-vid Light" autoPlay muted loop>
+      <m.div
+        className="home__index-wrap"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
+      >
+        <div className="home__index-wrap_bio-wrap bg">
+          <ul class="glass">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          {/* <video className="home__bio-vid Light" autoPlay muted loop>
             <source src={LightBG} type="video/mp4" />
           </video>
           <video className="home__bio-vid Dark" autoPlay muted loop>
             <source src={DarkBG} type="video/mp4" />
-          </video>
+          </video> */}
           <div className="home__index-wrap_bio-content">
             <div className="home__index-wrap_bio-content_logo">
-              <img src={Temp} alt="Temp" />
+              <img src={Logo} alt="Temp" />
             </div>
             <div className="home__index-wrap_bio-content_text">
               <h1>
@@ -109,7 +128,7 @@ const Home__Index = () => {
           <h2>technologies i've worked with</h2>
           <TechSlider />
         </div>
-      </div>
+      </m.div>
     </>
   );
 };

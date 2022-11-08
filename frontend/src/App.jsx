@@ -33,8 +33,6 @@ import {
 
 import Error from "./Error";
 
-import Home__Survey from "./Home/Components/Home__Survey";
-
 function App() {
   const Wrapper = ({ children }) => {
     const location = useLocation();
@@ -47,14 +45,13 @@ function App() {
   return (
     <Router basename="/">
       <Wrapper>
-        <Routes>
+        <Routes location={location}>
           <Route path="/" element={<Home__Nav />}>
             <Route index element={<Home__Index />} />
             <Route path="about" element={<Home__About />} />
             <Route path="contact" element={<Home__Contact />} />
             <Route path="projects" element={<Home__Projects />} />
             <Route path="services" element={<Home__Services />} />
-            <Route path="survey" element={<Home__Survey />} />
           </Route>
           {/* SANDBOX ROUTES */}
           {/* HEADERS */}

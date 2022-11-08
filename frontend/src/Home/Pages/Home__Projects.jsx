@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { motion as m } from "framer-motion";
 
 import UIData from "../Components/Home__Sandbox_UI-Data";
 import { useContentContext } from "../Context/ContentProvider";
@@ -58,7 +59,12 @@ const Home__Projects = () => {
           <title>Oliver Turp | Projects</title>
         </Helmet>
       </HelmetProvider>
-      <div className="home__projects-wrap">
+      <m.div
+        className="home__projects-wrap"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
+      >
         <div className="home__projects-content">
           <h1>all projects</h1>
           {StaticSites.length > 0 && (
@@ -289,7 +295,7 @@ const Home__Projects = () => {
             </>
           )}
         </div>
-      </div>
+      </m.div>
     </>
   );
 };
