@@ -1,51 +1,70 @@
-import React from "react";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuthContext } from "../contexts/AuthProvider";
-import StatusMessage, { FAILED, SUCCESS } from "../components/StatusMessage";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { createSearchParams, Navigate, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthProvider';
+import StatusMessage, { FAILED, SUCCESS } from '../components/StatusMessage';
+import { useCheckToken } from '../hooks/useCheckToken';
 
 function Login() {
-  const { setToken, token, attemptLogin } = useAuthContext();
+  const { setToken, attemptLogin, token, isOnline } = useAuthContext();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const [usernameErrorMsg, setUsernameErrorMsg] = useState("");
-  const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [usernameErrorMsg, setUsernameErrorMsg] = useState('');
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
 
   const [message, setMessage] = useState({});
 
+  const { isChecking, isValid, retryCheckToken } = useCheckToken();
+
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("submit proceed");
-
-    if (username === "") {
-      setUsernameErrorMsg("Username is required");
+    console.log('submit proceed');
+    if (username === '') {
+      setUsernameErrorMsg('Username is required');
       return;
     } else {
-      setUsernameErrorMsg("");
+      setUsernameErrorMsg('');
     }
 
-    if (password === "") {
-      setPasswordErrorMsg("Password is required");
+    if (password === '') {
+      setPasswordErrorMsg('Password is required');
       return;
     } else {
-      setPasswordErrorMsg("");
+      setPasswordErrorMsg('');
     }
 
     const result = await attemptLogin({ username, password });
 
-    if (result.success) {
-      setMessage({ success: true, message: "Signed In" });
+    if (result.success === true) {
+      setMessage({ success: true, message: 'Signed In' });
+      console.log(result.data.admin.token);
       setToken(result.data.admin.token);
     } else {
-      setMessage({ success: false, message: result.message });
+      setMessage({
+        success: false,
+        message: result.message || 'Could not login. Try again...',
+      });
     }
   }
 
-  if (token) {
-    return <Navigate to="/dashboard" />;
-  }
+  useEffect(() => {
+    console.log('token in login page: ', token);
+  });
+  useEffect(() => {
+    if (token !== '') {
+      retryCheckToken();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (isChecking === false && isValid === true) {
+      navigate({ pathname: '/dashboard' });
+    }
+  }, [isChecking, isValid]);
 
   return (
     <>
@@ -54,21 +73,52 @@ function Login() {
       </header>
       <main
         style={{
-          paddingInline: "1.2rem",
-          paddingBlock: "2rem",
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
+          paddingInline: '1.2rem',
+          paddingBlock: '2rem',
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
         }}
       >
+        {isOnline === false && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '1rem',
+              left: '1rem',
+              right: '1rem',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <p
+              style={{
+                backgroundColor: 'var(--error-clr)',
+                borderRadius: '1rem',
+                fontSize: '1rem',
+                paddingInline: '2rem',
+                paddingBlock: '1rem',
+                color: 'var(--primary-clr)',
+                fontWeight: '700'
+              }}
+            >
+              Oops, you're offline. Check your Internet!
+            </p>
+          </div>
+        )}
         {message.message && (
           <>
             <div
               style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
+                position: 'fixed',
+                top: '5px',
+                left: '1rem',
+                right: '1rem',
+                display: 'flex',
+                justifyContent: 'center',
+                zIndex: '2222',
               }}
             >
               <StatusMessage
