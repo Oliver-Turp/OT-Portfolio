@@ -91,6 +91,7 @@ const getMe = async (req, res) => {
   res.status(200).json({ success: true, data: { admin: req.admin } });
 };
 
+
 // generates the token admin will use to access private routes
 function generateToken(payload) {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" });

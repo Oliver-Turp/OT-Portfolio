@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
-import useBaseUrl from "../hooks/useBaseUrl";
-import { useCallback } from "react";
+import React, { useEffect, useState } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+import useBaseUrl from '../hooks/useBaseUrl';
+import { useCallback } from 'react';
 
 const AuthContext = React.createContext();
 
@@ -9,29 +9,48 @@ export const useAuthContext = () => {
   return React.useContext(AuthContext);
 };
 
-const ADMIN_USER_TOKEN_KEY = "adminUserToken";
-const ADMIN_USERNAME_KEY = "adminUsername";
+const ADMIN_USER_TOKEN_KEY = 'adminUserToken';
+const ADMIN_USERNAME_KEY = 'adminUsername';
 
 function AuthProvider({ children }) {
   const [token, setToken] = useLocalStorage(ADMIN_USER_TOKEN_KEY);
   //   const [adminUsername, setAdminUsername] = useLocalStorage(ADMIN_USERNAME_KEY);
-  const [adminUsername, setAdminUsername] = useState("");
+  const [adminUsername, setAdminUsername] = useState('');
   const { baseUrl } = useBaseUrl();
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   function logoutAdmin() {
-    setToken("");
+    setToken('');
   }
+
+  useEffect(() => {
+    // Update network status
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine);
+    };
+    // Listen to the online status
+    window.addEventListener('online', handleStatusChange);
+
+    // Listen to the offline status
+    window.addEventListener('offline', handleStatusChange);
+
+    // Specify how to clean up after this effect for performance improvment
+    return () => {
+      window.removeEventListener('online', handleStatusChange);
+      window.removeEventListener('offline', handleStatusChange);
+    };
+  }, [isOnline]);
 
   const getAdminInfo = async () => {
     // console.log(token)
 
     try {
       const data = await (
-        await fetch(baseUrl + "auth/@me", {
-          method: "GET",
+        await fetch(baseUrl + 'auth/@me', {
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
           },
         })
       ).json();
@@ -39,18 +58,19 @@ function AuthProvider({ children }) {
       if (data.success) {
         setAdminUsername(data.data.admin.username);
       }
+      return data;
     } catch (err) {
-      console.log(err);
+      return { success: false };
     }
   };
 
   async function attemptLogin({ username, password }) {
     try {
-      const response = await fetch(baseUrl + "auth/login", {
-        method: "POST",
-        mode: "cors",
+      const response = await fetch(baseUrl + 'auth/login', {
+        method: 'POST',
+        mode: 'cors',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username,
@@ -61,15 +81,15 @@ function AuthProvider({ children }) {
       return result;
     } catch (err) {
       console.log(err);
-      return { success: false, message: "Couldn't fetch data" };
+      return { success: false };
     }
   }
 
-  useEffect(() => {
-    if (token) {
-      getAdminInfo();
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     getAdminInfo();
+  //   }
+  // }, [token]);
 
   return (
     <AuthContext.Provider
@@ -80,6 +100,9 @@ function AuthProvider({ children }) {
         setAdminUsername,
         logoutAdmin,
         attemptLogin,
+        getAdminInfo,
+        isOnline,
+        invalidateToken: logoutAdmin,
       }}
     >
       {children}

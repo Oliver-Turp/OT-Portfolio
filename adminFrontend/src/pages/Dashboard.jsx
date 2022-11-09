@@ -8,7 +8,7 @@ import StatusMessage from '../components/StatusMessage';
 
 function Dashboard() {
   // accessing some global state from appropriate contexts
-  const { adminUsername, logoutAdmin, token } = useAuthContext();
+  const { adminUsername, logoutAdmin, token, isOnline } = useAuthContext();
   const { statusMessage, setStatusMessage } = useUserContentContext();
 
   // wrapping the logout function from the AuthProvider
@@ -40,6 +40,33 @@ function Dashboard() {
         </div>
       </header>
       <main>
+        {isOnline === false && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '1rem',
+              left: '1rem',
+              right: '1rem',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <p
+              style={{
+                backgroundColor: 'var(--error-clr)',
+                borderRadius: '1rem',
+                fontSize: '1rem',
+                paddingInline: '2rem',
+                paddingBlock: '1rem',
+                color: 'var(--primary-clr)',
+                fontWeight: '700',
+              }}
+            >
+              Oops, you're offline. Check your Internet!
+            </p>
+          </div>
+        )}
         {statusMessage.message && (
           <div
             style={{
