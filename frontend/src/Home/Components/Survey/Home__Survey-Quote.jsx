@@ -8,6 +8,7 @@ import ServicesDevelopment from './Quote__Form--Services-Development';
 import ServicesProduction from './Quote__Form--Services-Production';
 import YourDetails from './Quote__Form--Your-Details';
 import { formPartsData } from '../../Data/quoteFormPartsData';
+import { useSessionStorage } from '../../Hooks/useSessionStorage';
 
 const INITIAL_FORM_STATE = {
   email: '',
@@ -29,8 +30,10 @@ const INITIAL_FORM_STATE = {
 };
 
 const Home__Survey_Quote = () => {
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-  // const [formCompleted, setFormCompleted] = useState(false);
+  const [formData, setFormData] = useSessionStorage(
+    'QUOTE_FORM_DATA',
+    INITIAL_FORM_STATE
+  );
 
   useEffect(() => {
     console.log(formData);
@@ -42,12 +45,13 @@ const Home__Survey_Quote = () => {
     });
   }
 
-  const { step, steps, stepId, prev, next } = useMultiStepForm([
-    <YourDetails {...formData} updateFields={updateFields} />,
-    <ProjectOverview {...formData} updateFields={updateFields} />,
-    <ServicesDevelopment {...formData} updateFields={updateFields} />,
-    <ServicesProduction {...formData} updateFields={updateFields} />,
-  ]);
+  const { step, steps, stepId, prev, next, goTo, currentMaxStepId } =
+    useMultiStepForm([
+      <YourDetails {...formData} updateFields={updateFields} />,
+      <ProjectOverview {...formData} updateFields={updateFields} />,
+      <ServicesDevelopment {...formData} updateFields={updateFields} />,
+      <ServicesProduction {...formData} updateFields={updateFields} />,
+    ]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -61,31 +65,47 @@ const Home__Survey_Quote = () => {
     alert('Congrats for finishing the form!!');
   }
 
+
+  useEffect(() => {
+    console.log("stepId: ",stepId, "currentMax: ", currentMaxStepId)
+  }, [stepId, currentMaxStepId])
+
   return (
     <aside className="survey_form">
-      <section className="form_tabs-wrapper">
-        <div className="form_tabs">
-          {steps.map((part, index) => (
-            <div className="form_tab" key={index}>
-              <p>{formPartsData[index].title}</p>
-            </div>
-          ))}
-        </div>
-        <div className="form_tabs">
-          {steps.map((part, index) => (
-            <div
-              key={index}
-              className={`progress-bar ${
-                // formCompleted
-                //   ? 'complete'
-                //   :
-                index < stepId ? 'complete' : index === stepId ? 'active' : ''
-              } `}
-            ></div>
-          ))}
-        </div>
-      </section>
       <form onSubmit={handleSubmit}>
+        <section className="form_tabs-wrapper">
+          <div className="form_tabs title_tabs">
+            {steps.map((part, index) => (
+              <div className="form_tab" key={index}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (index <= currentMaxStepId) {
+                      console.log(index);
+                      goTo(index);
+                    }
+                   
+                  }}
+                >
+                  {formPartsData[index].title}
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="form_tabs">
+            {steps.map((part, index) => (
+              <div
+                key={index}
+                className={`progress-bar ${
+                  // formCompleted
+                  //   ? 'complete'
+                  //   :
+                  index < stepId ? 'complete' : index === stepId ? 'active' : ''
+                } `}
+              ></div>
+            ))}
+          </div>
+        </section>
         <div className="grid_2 form_page">{step}</div>
 
         <div className="form_button-group">

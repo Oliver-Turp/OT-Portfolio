@@ -102,7 +102,6 @@ function AuthProvider({ children }) {
         attemptLogin,
         getAdminInfo,
         isOnline,
-        invalidateToken: logoutAdmin,
       }}
     >
       {children}

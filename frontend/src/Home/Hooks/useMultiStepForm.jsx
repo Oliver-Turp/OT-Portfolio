@@ -1,5 +1,7 @@
 import React from 'react';
-import {useState} from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useSessionStorage } from './useSessionStorage';
 import { useTabs } from './useTabs';
 
 const useMultiStepForm = (steps) => {
@@ -8,10 +10,20 @@ const useMultiStepForm = (steps) => {
   //   formParts[0].id
   // );
 
-  const [stepId, setCurrentStepId] = useState(0);
+  const [stepId, setStepId] = useSessionStorage('QUOTE_FORM_STEP_ID', 0);
+  const [currentMaxStepId, setCurrentMaxStepId] = useSessionStorage(
+    'QUOTE_FORM_MAX_STEP_YET',
+    0
+  );
+  useEffect(() => {
+    console.log("stepId: ", stepId)
+    if (stepId > currentMaxStepId) {
+      setCurrentMaxStepId(stepId);
+    }
+  }, [stepId]);
 
   function goToStep(id) {
-    setCurrentStepId(id);
+    setStepId(id);
   }
 
   function next() {
@@ -29,6 +41,8 @@ const useMultiStepForm = (steps) => {
     steps,
     next,
     prev,
+    goTo: goToStep,
+    currentMaxStepId,
   };
 };
 
