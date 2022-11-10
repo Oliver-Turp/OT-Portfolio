@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useState } from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import "../../Styles/contact__form.css";
+import '../../Styles/contact__form.css';
 
 const Form = () => {
-  const [clicked, setClicked] = useState("false");
+  const [clicked, setClicked] = useState('false');
 
   const setState = (e) => {
     setClicked(!clicked);
@@ -20,7 +20,7 @@ const Form = () => {
       </HelmetProvider>
       <div className="generic__form-wrap">
         <h1>contact me</h1>
-        <form className={clicked ? "" : "submitted"}>
+        <form className={clicked ? '' : 'submitted'}>
           <div className="pm__contact_input-group">
             <label>Full Name *</label>
             <input

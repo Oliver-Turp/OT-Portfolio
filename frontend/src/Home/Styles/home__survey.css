@@ -1,4 +1,31 @@
 /* GENERAL STYLES */
+.error{
+  animation: shake 400ms;
+  outline: 1px solid red;
+}
+
+.error-text{
+  font-size: .8rem;
+}
+
+.error + .error-text{
+  opacity: 1;
+  color: red;
+}
+
+
+
+.hidden{
+  opacity: 0;
+}
+
+@keyframes shake {
+ 0% { transform: translateX(0) }
+ 25% { transform: translateX(10px) }
+ 50% { transform: translateX(-10px) }
+ 75% { transform: translateX(10px) }
+ 100% { transform: translateX(0) }
+}
 
 .home__survey-wrap {
   width: 100vw;
@@ -133,20 +160,24 @@
   border-top: 1px solid black;
 }
 
-.form_tab p {
+.form_tab button {
   border-right: 1px solid black;
   border-bottom: 1px solid black;
   padding: 0.5rem 0.5vw;
   cursor: pointer;
   font-weight: 500;
   font-size: 1rem;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+
 }
 
-.form_tab:nth-of-type(1) p {
+.form_tab:nth-of-type(1) button {
   border-left: 1px solid black;
 }
 
-.form_tab p:hover {
+.form_tab button:hover {
   background-color: grey;
 }
 
@@ -157,7 +188,6 @@
   align-items: center;
   width: 100%;
 }
-
 
 .progress-bar {
   height: 1.5vh;

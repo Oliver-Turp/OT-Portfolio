@@ -81,8 +81,6 @@ function App() {
               <Navigate to="/dashboard" />
             ) : (
               <>
-                {console.log('invalidating token')}
-                {/* {invalidateToken()} */}
                 <Navigate to="/login" />
               </>
             )
