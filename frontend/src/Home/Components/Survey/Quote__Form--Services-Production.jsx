@@ -22,12 +22,13 @@ const ServicesProduction = ({
         </label>
         <input
           type="text"
-          name="survey-domainName"
+          name="domainName"
           placeholder="YourSiteName"
           required
           value={domainName}
           onChange={(e) => updateFields({ domainName: e.target.value })}
         />
+        <p className='error-text hidden'>You have to provide a value</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-domainType">
@@ -37,7 +38,7 @@ const ServicesProduction = ({
         </label>
         <Form.Select
           className="lowercase"
-          name="domainType"
+          name="topLevelDomain"
           value={topLevelDomain}
           onChange={(e) => updateFields({ topLevelDomain: e.target.value })}
         >
@@ -61,6 +62,7 @@ const ServicesProduction = ({
           <option value=".io">.io</option>
           <option value=".tv">.tv</option>
         </Form.Select>
+        <p className='error-text hidden'>You have to choose an option</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-emailCount">
@@ -68,26 +70,36 @@ const ServicesProduction = ({
         </label>
         <input
           type="number"
-          name="survey-emailCount"
+          name="emailCount"
           step="1"
           min="0"
           required
           value={emailCount}
-          onChange={(e) => updateFields({ emailCount: e.target.value })}
+          onChange={(e) => {
+            console.log(e.target.value);
+            updateFields({ emailCount: e.target.value });
+          }}
         />
+        <p className='error-text hidden'>You have to provide a value</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-support">
           what level of support will you need? <sup>*</sup>
         </label>
-        <Form.Select name="survey-support">
+        <Form.Select
+          name="supportLevel"
           value={supportLevel}
-          onChange={(e) => updateFields({ supportLevel: e.target.value })}
+          onChange={(e) => {
+            console.log(e.target);
+            updateFields({ supportLevel: e.target.value });
+          }}
+        >
           <option hidden>low / high / highest</option>
           <option value="low">low</option>
           <option value="high">high</option>
           <option value="highest">highest</option>
         </Form.Select>
+        <p className='error-text hidden'>You have to choose an option</p>
       </section>
     </>
   );

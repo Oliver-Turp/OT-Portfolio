@@ -17,7 +17,7 @@ const ProjectOverview = ({
           are you the project manager? <sup>*</sup>
         </label>
         <Form.Select
-          name="survey-manager"
+          name="surveyManager"
           value={surveyManager}
           onChange={(e) => updateFields({ surveyManager: e.target.value })}
         >
@@ -25,6 +25,7 @@ const ProjectOverview = ({
           <option value="yes">yes</option>
           <option value="no">no</option>
         </Form.Select>
+        <p className='error-text hidden'>You have to choose an option</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-decision">
@@ -32,13 +33,14 @@ const ProjectOverview = ({
         </label>
         <input
           type="number"
-          name="survey-decision"
+          name="decisionMakers"
           step="1"
           min="1"
           required
           value={decisionMakers}
           onChange={(e) => updateFields({ decisionMakers: e.target.value })}
         />
+        <p className='error-text hidden'>Number of decision makers has not been provided</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-budget">
@@ -46,13 +48,14 @@ const ProjectOverview = ({
         </label>
         <input
           type="text"
-          name="survey-budget"
+          name="budget"
           id="survey-budget"
           placeholder="£1,000,000.00"
           value={budget}
           onChange={(e) => updateFields({ budget: e.target.value })}
           datatype="currency"
         />
+        <p className='error-text hidden'>Specify your budget</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-deadline">
@@ -60,18 +63,19 @@ const ProjectOverview = ({
         </label>
         <input
           type="date"
-          name="survey-deadline"
+          name="deadline"
           id="survey-deadline"
           value={deadline}
           onChange={(e) => updateFields({ deadline: e.target.value })}
         />
+        <p className='error-text hidden'>You have not provided any deadlines for this project</p>
       </section>
       <section className="form_question form_double">
         <label htmlFor="survey-success">
           what does success look like for this project? <sup>*</sup>
         </label>
         <textarea
-          name="survey-success"
+          name="successDescription"
           id="survey-success"
           placeholder="Any Additional Information Would Be Very Helpful!"
           rows="1"
@@ -79,6 +83,7 @@ const ProjectOverview = ({
           onChange={(e) => updateFields({ successDescription: e.target.value })}
           required
         ></textarea>
+        <p className='error-text hidden'>You've not provided any answers here</p>
       </section>
     </>
   );

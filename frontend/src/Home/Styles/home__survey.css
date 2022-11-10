@@ -1,4 +1,31 @@
 /* GENERAL STYLES */
+.error{
+  animation: shake 400ms;
+  outline: 1px solid red;
+}
+
+.error-text{
+  font-size: .8rem;
+}
+
+.error + .error-text{
+  opacity: 1;
+  color: red;
+}
+
+
+
+.hidden{
+  opacity: 0;
+}
+
+@keyframes shake {
+ 0% { transform: translateX(0) }
+ 25% { transform: translateX(10px) }
+ 50% { transform: translateX(-10px) }
+ 75% { transform: translateX(10px) }
+ 100% { transform: translateX(0) }
+}
 
 .home__survey-wrap {
   width: 100vw;

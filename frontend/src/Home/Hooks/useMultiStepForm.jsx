@@ -34,6 +34,10 @@ const useMultiStepForm = (steps) => {
   function prev() {
     goToStep(stepId <= 0 ? stepId : stepId - 1);
   }
+  function resetMultiStep(){
+    setStepId(0)
+    setCurrentMaxStepId(0)
+  }
   return {
     // goToStep: goToTab,
     step: steps[stepId],
@@ -43,6 +47,7 @@ const useMultiStepForm = (steps) => {
     prev,
     goTo: goToStep,
     currentMaxStepId,
+    resetMultiStep
   };
 };
 

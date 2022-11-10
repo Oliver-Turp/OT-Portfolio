@@ -27,6 +27,7 @@ const YourDetails = (props) => {
           }}
           required
         />
+        <p className='error-text hidden'> Full Name is empty</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-email">
@@ -43,6 +44,7 @@ const YourDetails = (props) => {
           }}
           required
         />
+        <p className='error-text hidden'> {email === '' ? "Email is empty" : "Email not valid"}</p>
       </section>
       <section className="form_question">
         <label htmlFor="survey-phone">phone</label>
@@ -56,6 +58,7 @@ const YourDetails = (props) => {
             updateFields({ phone: e.target.value });
           }}
         />
+        <p className='error-text hidden'> No Phone number provided</p>
       </section>
     </>
   );
