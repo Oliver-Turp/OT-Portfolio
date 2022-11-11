@@ -127,19 +127,21 @@
 }
 
 .card_details {
-  border: 1px solid black;
+  border: 1px solid gray;
+  border-radius: 5px;
   background-color: white;
-  justify-content: center;
-  align-items: center;
+  text-align: left;
+  padding: 1rem;
+  display: flex;
 }
 
-.card_details.hidden {
+/* .card_details.hidden {
   display: none;
 }
 
 .card_details.show {
   display: flex;
-}
+} */
 
 /* FORM|QUOTE STYLES */
 

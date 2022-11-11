@@ -16,7 +16,6 @@ const useMultiStepForm = (steps) => {
     0
   );
   useEffect(() => {
-    console.log("stepId: ", stepId)
     if (stepId > currentMaxStepId) {
       setCurrentMaxStepId(stepId);
     }
