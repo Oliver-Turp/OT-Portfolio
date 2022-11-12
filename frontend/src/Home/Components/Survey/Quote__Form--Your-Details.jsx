@@ -5,10 +5,6 @@ import { useState } from 'react';
 const YourDetails = (props) => {
   const {fullName, email, phone,  updateFields} = props
 
-  useEffect(() => {
-    console.log("Props on Details: ", props)
-  })
-
   return (
     <>
       <h3>your details</h3>

@@ -33,9 +33,28 @@ const Home__Survey_Details = () => {
         </div>
         <div className="card_details">
           {/* <i>more details here</i> */}
-          <p>
-            {tab === undefined ? 'Select an item to see more info' : tab.text}
-          </p>
+          {tab === undefined ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
+              <p
+                style={{
+                  fontSize: '1.5rem',
+                  color: 'green',
+                  textAlign: 'center',
+                }}
+              >
+                Select an item to see more info
+              </p>
+            </div>
+          ) : (
+            tab.content
+          )}
         </div>
       </div>
     </main>

@@ -19,7 +19,6 @@ const Home__Index = () => {
     return item.featured === true;
   });
 
-  console.log(projects);
 
   return (
     <>
