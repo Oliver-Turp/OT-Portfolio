@@ -70,8 +70,8 @@ const ServicesDevelopment = ({
           onChange={(e) => updateFields({ levelOfSEO: e.target.value })}
         >
           <option hidden>basic / detailed</option>
-          <option value="yes">basic</option>
-          <option value="no">detailed</option>
+          <option value="basic">basic</option>
+          <option value="detailed">detailed</option>
         </Form.Select>
       <p className='error-text hidden'>You have to choose an option</p>
       </section>
