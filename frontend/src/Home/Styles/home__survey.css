@@ -105,6 +105,9 @@
   background-color: gray;
 }
 
+.survey_services .row.row-hover{
+  background-color: hsl(0, 0%, 74%);
+}
 .service_card .row svg:first-of-type {
   margin-left: auto;
 }

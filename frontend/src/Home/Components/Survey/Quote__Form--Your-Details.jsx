@@ -15,7 +15,7 @@ const YourDetails = (props) => {
         <input
           type="text"
           id="fullName"
-          name="survey-name"
+          name="name"
           placeholder="Your Full Name"
           value={fullName}
           onChange={(e) => {
@@ -32,7 +32,7 @@ const YourDetails = (props) => {
         <input
           type="email"
           id="email"
-          name="survey-email"
+          name="email"
           placeholder="YourEmail@Domain.com"
           value={email}
           onChange={(e) => {
@@ -47,7 +47,7 @@ const YourDetails = (props) => {
         <input
           type="tel"
           id="phone"
-          name="survey-phone"
+          name="phone"
           placeholder="+<country_code> 123456789"
           value={phone}
           onChange={(e) => {

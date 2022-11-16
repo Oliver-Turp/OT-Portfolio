@@ -11,6 +11,7 @@ import { formPartsData } from '../../Data/quoteFormPartsData';
 import { useSessionStorage } from '../../Hooks/useSessionStorage';
 import { useRef } from 'react';
 import { validateEmail } from '../../Utils/validateEmail';
+import emailjs from '@emailjs/browser';
 
 const INITIAL_DETAILS_STATE = {
   fullName: '',
@@ -119,12 +120,12 @@ const Home__Survey_Quote = () => {
         return false;
       }
 
-      if (key == "email") {
+      if (key == 'email') {
         const isValid = validateEmail(currentFormPageData[key]);
         if (isValid === false) {
-          shake(formInput)
+          shake(formInput);
           return false;
-        } 
+        }
       }
     }
     return true;
@@ -150,9 +151,39 @@ const Home__Survey_Quote = () => {
       return next();
     }
 
-    // reset the form states once it's sent over email
-    resetFormData();
-    resetMultiStep();
+    // send form over email
+    sendEmail(e);
+  }
+
+  async function sendEmail(e) {
+    e.target.value = 'Sending...';
+    let message = '';
+
+    const formData = {
+      ...detailsData,
+      ...projOverviewData,
+      ...devData,
+      ...prodData,
+    };
+
+    console.log(formData)
+    try {
+      const result = await emailjs.send(
+        'service_xuml4ms',
+        'template_r19uaex',
+        formData,
+        'd0QMfD17nPqDUJgHd'
+      );
+
+      message = result.text;
+      // resetFormData();
+      // resetMultiStep();
+    } catch (err) {
+      message = err.text;
+    } finally {
+      e.target.value = 'Submit';
+      alert(message);
+    }
   }
 
   function resetFormData() {
