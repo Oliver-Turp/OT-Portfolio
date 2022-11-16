@@ -5,9 +5,11 @@ import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import '../../Styles/home__survey.css';
 import { useTabs } from '../../Hooks/useTabs';
 import { detailsList } from '../../Data/detailsList';
+import { useState } from 'react';
 
 const Home__Survey_Details = () => {
   const { goToTab, tab, tabId } = useTabs(detailsList);
+  const [lastItemOnClick, setLastItemOnClick] = useState();
 
   return (
     <main className="survey_services">
@@ -16,9 +18,21 @@ const Home__Survey_Details = () => {
           <div className="column">
             {detailsList.map((item) => (
               <div
-                className={'row ' + (item.id === tabId ? 'row-active' : '')}
+                className={
+                  'row ' +
+                  (item.id === lastItemOnClick
+                    ? 'row-active'
+                    : item.id === tabId
+                    ? 'row-hover'
+                    : '')
+                }
                 key={item.id}
-                onClick={() => goToTab(item.id)}
+                onClick={() => {
+                  setLastItemOnClick(item.id);
+                  goToTab(item.id);
+                }}
+                onMouseOverCapture={() => goToTab(item.id)}
+                onMouseLeave={() => goToTab(lastItemOnClick)}
               >
                 <FontAwesomeIcon icon={faCheck} />
                 <p>{item.caption}</p>
@@ -39,7 +53,7 @@ const Home__Survey_Details = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: '100%'
+                width: '100%',
               }}
             >
               <p
