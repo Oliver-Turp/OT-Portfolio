@@ -6,18 +6,29 @@ import { useAuthContext } from './contexts/AuthProvider';
 import ContentChooser from './components/ContentChooser';
 import Projects from './components/Projects';
 import ProjectModal from './components/ProjectsModal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useCheckToken } from './hooks/useCheckToken';
 import PageNotFound from './pages/PageNotFound';
 import LoadingScreen from './components/LoadingScreen';
 import PrivateRoute from './components/PrivateRoute';
+import { useSessionStorage } from './hooks/useSessionStorage';
 
 function App() {
   const { getAdminInfo, token } = useAuthContext();
   const navigate = useNavigate();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const { isChecking, isValid } = useCheckToken();
+  const [isAuthenticated, setIsAuthenticated] = useSessionStorage("IS_AUTHENTICATED", false)
+
+
+  // const { isChecking, isValid } = useCallback(
+  //   () => {
+  //     useCheckToken();
+  //   },
+  //   [],
+  // )
+
+
+  const {isChecking, isValid} = useCheckToken();
 
   useEffect(() => {
 
