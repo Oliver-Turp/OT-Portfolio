@@ -1,14 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { createSearchParams, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthProvider';
 import StatusMessage, { FAILED, SUCCESS } from '../components/StatusMessage';
 import { useCheckToken } from '../hooks/useCheckToken';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
-function Login() {
+function Login({ setIsAuthenticated }) {
   const { setToken, attemptLogin, token, isOnline } = useAuthContext();
-
-  const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,8 +16,8 @@ function Login() {
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
 
   const [message, setMessage] = useState({});
+  const [loginSuccess, setLoginSuccess] = useSessionStorage("LOGIN_SUCCESS", false);
 
-  const { isChecking, isValid, retryCheckToken } = useCheckToken();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -42,6 +41,7 @@ function Login() {
     if (result.success === true) {
       setMessage({ success: true, message: 'Signed In' });
       console.log(result.data.admin.token);
+      setLoginSuccess(true)
       setToken(result.data.admin.token);
     } else {
       setMessage({
@@ -52,19 +52,13 @@ function Login() {
   }
 
   useEffect(() => {
-    console.log('token in login page: ', token);
-  });
-  useEffect(() => {
-    if (token !== '') {
-      retryCheckToken();
-    }
-  }, [token]);
+    if (loginSuccess === true) {
 
-  useEffect(() => {
-    if (isChecking === false && isValid === true) {
-      navigate({ pathname: '/dashboard' });
+      setIsAuthenticated(true);
     }
-  }, [isChecking, isValid]);
+
+  }, [loginSuccess])
+
 
   return (
     <>

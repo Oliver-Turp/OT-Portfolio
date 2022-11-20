@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthProvider';
 import { useUserContentContext } from '../contexts/UserContentProvider';
 import { Outlet } from 'react-router-dom';
@@ -8,18 +7,16 @@ import StatusMessage from '../components/StatusMessage';
 
 function Dashboard() {
   // accessing some global state from appropriate contexts
-  const { adminUsername, logoutAdmin, token, isOnline } = useAuthContext();
+  const { adminUsername, logoutAdmin, isOnline } = useAuthContext();
   const { statusMessage, setStatusMessage } = useUserContentContext();
+
 
   // wrapping the logout function from the AuthProvider
   function logout() {
     logoutAdmin();
   }
 
-  // redirect to login page if no token exists. This makes sure if we loose the token at any point we'd be redirected back to login page
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
+
 
   return (
     <>

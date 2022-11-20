@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -6,98 +6,70 @@ import { useAuthContext } from './contexts/AuthProvider';
 import ContentChooser from './components/ContentChooser';
 import Projects from './components/Projects';
 import ProjectModal from './components/ProjectsModal';
-import { useEffect } from 'react';
-import RingLoader from 'react-spinners/RingLoader';
+import { useEffect, useState } from 'react';
 import { useCheckToken } from './hooks/useCheckToken';
+import PageNotFound from './pages/PageNotFound';
+import LoadingScreen from './components/LoadingScreen';
+import { useSessionStorage } from './hooks/useSessionStorage'
 
 function App() {
-  const { getAdminInfo } = useAuthContext();
+  const { getAdminInfo, token } = useAuthContext();
   const { isChecking, isValid } = useCheckToken();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log('isValid: ' + isValid);
-  });
+  }, [isValid, isChecking]);
 
-  // if (!isOnline) {
-  //   return (
-  //     <div
-  //       style={{
-  //         width: '100%',
-  //         height: '100%',
-  //         display: 'flex',
-  //         flexDirection: 'column',
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         gap: '1rem',
-  //       }}
-  //     >
-  //       <p
-  //         style={{
-  //           color: 'var(--secondary-clr-dark)',
-  //           fontSize: '2rem',
-  //         }}
-  //       >
-  //         No Internet ...{' '}
-  //       </p>
-  //     </div>
-  //   );
-  // }
 
-  return (
-    <BrowserRouter>
+  useEffect(() => {
+    if (token === "" || isValid === false || isValid === undefined) {
+      setIsAuthenticated(false)
+    }else if (isValid === true){
+      setIsAuthenticated(true)
+    }
+  }, [token, isValid])
+
+  useEffect(() => {
+    console.log("isAuthenticated: ", isAuthenticated)
+    if (isAuthenticated === true) {
+      navigate({ pathname: '/' })
+    }
+  }, [isAuthenticated])
+
+
+  if (isAuthenticated === false) {
+    return (
+      <Routes>
+        <Route path='/' element={isChecking ? <LoadingScreen /> : <Navigate to="/login" />} />
+        <Route path='/login' element={<Login setIsAuthenticated={(value) => setIsAuthenticated(value)} />} />
+        <Route path='*' element={<PageNotFound />} />
+      </Routes>
+    )
+  } else {
+
+    return (
       <Routes>
         <Route
           path="/"
           element={
-            // redirect  user to login page if there's no token
-
-            isChecking === true ? (
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: '1rem',
-                }}
-              >
-                <p
-                  style={{
-                    color: 'var(--secondary-clr-dark)',
-                    fontSize: '2rem',
-                  }}
-                >
-                  Please Wait...
-                </p>
-                <RingLoader
-                  color={'var(--secondary-clr)'}
-                  loading={true}
-                  cssOverride={{ backgroundColor: 'white' }}
-                />
-              </div>
-            ) : isValid === true ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <>
-                <Navigate to="/login" />
-              </>
-            )
-
-            // token === null || token === undefined || token === '' ? <Login /> : <Dashboard />
+            <Navigate to="/dashboard" />
           }
         />
-        <Route path="/login" element={<Login />} />
+
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<ContentChooser />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/new" element={<ProjectModal />} />
           <Route path="projects/edit" element={<ProjectModal />} />
         </Route>
+
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
-    </BrowserRouter>
-  );
+    );
+  }
 }
 
 export default App;

@@ -85,12 +85,6 @@ function AuthProvider({ children }) {
     }
   }
 
-  // useEffect(() => {
-  //   if (token) {
-  //     getAdminInfo();
-  //   }
-  // }, [token]);
-
   return (
     <AuthContext.Provider
       value={{

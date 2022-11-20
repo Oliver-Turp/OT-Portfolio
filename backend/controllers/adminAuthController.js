@@ -94,7 +94,7 @@ const getMe = async (req, res) => {
 
 // generates the token admin will use to access private routes
 function generateToken(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" });
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2minutes" });
 }
 
 //export the controller functions here
