@@ -10,66 +10,71 @@ import { useEffect, useState } from 'react';
 import { useCheckToken } from './hooks/useCheckToken';
 import PageNotFound from './pages/PageNotFound';
 import LoadingScreen from './components/LoadingScreen';
-import { useSessionStorage } from './hooks/useSessionStorage'
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   const { getAdminInfo, token } = useAuthContext();
-  const { isChecking, isValid } = useCheckToken();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log('isValid: ' + isValid);
-  }, [isValid, isChecking]);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { isChecking, isValid } = useCheckToken();
 
   useEffect(() => {
-    if (token === "" || isValid === false || isValid === undefined) {
+
+    if (token === "") {
       setIsAuthenticated(false)
-    }else if (isValid === true){
+    }
+
+  }, [token])
+
+  useEffect(() => {
+    if (isValid === true) {
       setIsAuthenticated(true)
     }
-  }, [token, isValid])
+  }, [isValid])
+
+
 
   useEffect(() => {
-    console.log("isAuthenticated: ", isAuthenticated)
     if (isAuthenticated === true) {
-      navigate({ pathname: '/' })
+      navigate({ pathname: '/dashboard' })
+    } else {
+
+      navigate({ pathname: '/login' })
     }
   }, [isAuthenticated])
 
 
-  if (isAuthenticated === false) {
-    return (
-      <Routes>
-        <Route path='/' element={isChecking ? <LoadingScreen /> : <Navigate to="/login" />} />
-        <Route path='/login' element={<Login setIsAuthenticated={(value) => setIsAuthenticated(value)} />} />
-        <Route path='*' element={<PageNotFound />} />
-      </Routes>
-    )
-  } else {
+  useEffect(() => {
+    console.log("isAuthenticated: ", isAuthenticated)
+  })
 
-    return (
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate to="/dashboard" />
-          }
-        />
 
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<ContentChooser />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="projects/new" element={<ProjectModal />} />
-          <Route path="projects/edit" element={<ProjectModal />} />
-        </Route>
 
-        <Route path='*' element={<PageNotFound />} />
-      </Routes>
-    );
-  }
+  return (
+    <Routes>
+
+      {/* {isAuthenticated === false && <Route path='/' element={<Navigate to={'/login'}/>} />} */}
+      {isAuthenticated === false && <Route path='/login' element={<Login setIsAuthenticated={setIsAuthenticated} />} />}
+
+      {isAuthenticated === true && <Route path='/' element={<Navigate to="/dashboard" />} />}
+
+      {isAuthenticated === false && <Route path='/' element={isChecking ? <LoadingScreen /> : isValid === false ? <Navigate to={'/login'} replace /> : <Navigate to="/dashboard" replace />} />}
+      <Route path="/dashboard" element={(
+        <PrivateRoute isAuthenticated={isAuthenticated} >
+          <Dashboard />
+        </PrivateRoute>)
+      }>
+        <Route index element={<ContentChooser />} />
+        <Route path="projects" element={<Projects />} />
+        <Route path="projects/new" element={<ProjectModal />} />
+        <Route path="projects/edit" element={<ProjectModal />} />
+      </Route>
+
+      <Route path='*' element={<PageNotFound />} />
+
+    </Routes >
+  );
 }
 
 export default App;

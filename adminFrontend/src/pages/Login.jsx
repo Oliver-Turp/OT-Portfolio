@@ -16,7 +16,6 @@ function Login({ setIsAuthenticated }) {
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
 
   const [message, setMessage] = useState({});
-  const [loginSuccess, setLoginSuccess] = useSessionStorage("LOGIN_SUCCESS", false);
 
 
   async function handleSubmit(e) {
@@ -39,9 +38,8 @@ function Login({ setIsAuthenticated }) {
     const result = await attemptLogin({ username, password });
 
     if (result.success === true) {
+      setIsAuthenticated(true)
       setMessage({ success: true, message: 'Signed In' });
-      console.log(result.data.admin.token);
-      setLoginSuccess(true)
       setToken(result.data.admin.token);
     } else {
       setMessage({
@@ -50,14 +48,6 @@ function Login({ setIsAuthenticated }) {
       });
     }
   }
-
-  useEffect(() => {
-    if (loginSuccess === true) {
-
-      setIsAuthenticated(true);
-    }
-
-  }, [loginSuccess])
 
 
   return (

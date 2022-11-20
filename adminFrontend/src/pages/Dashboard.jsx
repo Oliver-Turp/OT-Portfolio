@@ -16,8 +16,6 @@ function Dashboard() {
     logoutAdmin();
   }
 
-
-
   return (
     <>
       <header style={{ justifyContent: 'space-between', alignItems: 'center' }}>

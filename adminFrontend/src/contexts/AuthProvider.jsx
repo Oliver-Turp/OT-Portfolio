@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import useBaseUrl from '../hooks/useBaseUrl';
 import { useCallback } from 'react';
+import { useCheckToken } from '../hooks/useCheckToken';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 const AuthContext = React.createContext();
 
@@ -15,9 +17,11 @@ const ADMIN_USERNAME_KEY = 'adminUsername';
 function AuthProvider({ children }) {
   const [token, setToken] = useLocalStorage(ADMIN_USER_TOKEN_KEY);
   //   const [adminUsername, setAdminUsername] = useLocalStorage(ADMIN_USERNAME_KEY);
-  const [adminUsername, setAdminUsername] = useState('');
+  const [adminUsername, setAdminUsername] = useSessionStorage(ADMIN_USERNAME_KEY, '');
   const { baseUrl } = useBaseUrl();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+
 
   function logoutAdmin() {
     setToken('');
