@@ -2,37 +2,37 @@ import { useEffect } from 'react';
 import { useAuthContext } from '../contexts/AuthProvider';
 import { useState } from 'react';
 
+export const TOKEN_STATE = {
+  INVALID: 'invalid',
+  VALID: 'valid',
+  NOT_SET_YET: 'notSetYet'
+}
+
 export function useCheckToken() {
-  const [isChecking, setIsChecking] = useState(true);
+  const [isCheckingToken, setIsCheckingToken] = useState(true);
   const { getAdminInfo } = useAuthContext();
-  const [isValid, setIsValid] = useState();
-  const [response, setResponse] = useState();
+  const [isTokenValid, setIsTokenValid] = useState(TOKEN_STATE.NOT_SET_YET);
 
   async function checkToken() {
-    setIsChecking(true);
-    const res = await getAdminInfo();
-    setResponse(res);
-    setIsChecking(false);
+    setIsTokenValid(TOKEN_STATE.NOT_SET_YET)
+    setIsCheckingToken(true);
+    const response = await getAdminInfo();
+
+    if (response.success === true) {
+      setIsTokenValid(TOKEN_STATE.VALID);
+    } else {
+      setIsTokenValid(TOKEN_STATE.INVALID);
+    }
+    setIsCheckingToken(false);
   }
 
   useEffect(() => {
     checkToken();
   }, []);
 
-  useEffect(() => {
-    if (!isChecking) {
-      console.log(response);
-      if (response.success === true) {
-        setIsValid(true);
-      } else {
-        setIsValid(false);
-      }
-    }
-  }, [isChecking]);
-
   return {
-    isValid,
-    isChecking,
+    isTokenValid,
+    isCheckingToken,
     retryCheckToken: checkToken,
   };
 }

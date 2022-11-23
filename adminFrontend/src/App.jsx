@@ -7,84 +7,52 @@ import ContentChooser from './components/ContentChooser';
 import Projects from './components/Projects';
 import ProjectModal from './components/ProjectsModal';
 import { useEffect, useState, useCallback } from 'react';
-import { useCheckToken } from './hooks/useCheckToken';
+import { useCheckToken, TOKEN_STATE } from './hooks/useCheckToken';
 import PageNotFound from './pages/PageNotFound';
 import LoadingScreen from './components/LoadingScreen';
-import PrivateRoute from './components/PrivateRoute';
-import { useSessionStorage } from './hooks/useSessionStorage';
+import ConditionalRoute from './components/ConditionalRoute';
 
 function App() {
-  const { getAdminInfo, token } = useAuthContext();
-  const navigate = useNavigate();
-
-  const [isAuthenticated, setIsAuthenticated] = useSessionStorage("IS_AUTHENTICATED", false)
-
-
-  // const { isChecking, isValid } = useCallback(
-  //   () => {
-  //     useCheckToken();
-  //   },
-  //   [],
-  // )
-
-
-  const {isChecking, isValid} = useCheckToken();
+  const { token } = useAuthContext();
+  const { isCheckingToken, isTokenValid, retryCheckToken } = useCheckToken();
 
   useEffect(() => {
-
-    if (token === "") {
-      setIsAuthenticated(false)
-    }
-
+    retryCheckToken()
   }, [token])
 
-  useEffect(() => {
-    if (isValid === true) {
-      setIsAuthenticated(true)
-    }
-  }, [isValid])
-
-
 
   useEffect(() => {
-    if (isAuthenticated === true) {
-      navigate({ pathname: '/dashboard' })
-    } else {
-
-      navigate({ pathname: '/login' })
-    }
-  }, [isAuthenticated])
-
-
-  useEffect(() => {
-    console.log("isAuthenticated: ", isAuthenticated)
+    console.log("isCheckingToken: ", isCheckingToken, ' | ', "isTokenValid: ", isTokenValid)
   })
 
-
-
   return (
-    <Routes>
+    <>
+      <Routes>
+        <Route path='/' element={(isCheckingToken === true || isTokenValid === TOKEN_STATE.NOT_SET_YET) ? <LoadingScreen /> : isTokenValid === TOKEN_STATE.VALID ? <Navigate to='/dashboard' /> : <Navigate to='/login' />} />
 
-      {/* {isAuthenticated === false && <Route path='/' element={<Navigate to={'/login'}/>} />} */}
-      {isAuthenticated === false && <Route path='/login' element={<Login setIsAuthenticated={setIsAuthenticated} />} />}
+        <Route path='/login' element={
+          isCheckingToken === true ? <LoadingScreen /> : (
+            <ConditionalRoute renderIf={isTokenValid === TOKEN_STATE.INVALID} go={{ to: '/dashboard', if: isTokenValid === TOKEN_STATE.VALID }}>
+              <Login />
+            </ConditionalRoute>
+          )} />
 
-      {isAuthenticated === true && <Route path='/' element={<Navigate to="/dashboard" />} />}
+        <Route path="/dashboard" element={
+          isCheckingToken === true ? <LoadingScreen /> : (
+            <ConditionalRoute renderIf={isTokenValid === TOKEN_STATE.VALID} go={{ to: '/login', if: isTokenValid === TOKEN_STATE.INVALID }}  >
+              <Dashboard />
+            </ConditionalRoute>)
+        }>
+          <Route index element={<ContentChooser />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="projects/new" element={<ProjectModal />} />
+          <Route path="projects/edit" element={<ProjectModal />} />
+        </Route>
 
-      {isAuthenticated === false && <Route path='/' element={isChecking ? <LoadingScreen /> : isValid === false ? <Navigate to={'/login'} replace /> : <Navigate to="/dashboard" replace />} />}
-      <Route path="/dashboard" element={(
-        <PrivateRoute isAuthenticated={isAuthenticated} >
-          <Dashboard />
-        </PrivateRoute>)
-      }>
-        <Route index element={<ContentChooser />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="projects/new" element={<ProjectModal />} />
-        <Route path="projects/edit" element={<ProjectModal />} />
-      </Route>
+        <Route path='*' element={<PageNotFound />} />
 
-      <Route path='*' element={<PageNotFound />} />
-
-    </Routes >
+      </Routes >
+    </>
   );
 }
 

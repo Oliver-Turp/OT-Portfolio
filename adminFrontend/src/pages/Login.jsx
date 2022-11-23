@@ -6,8 +6,8 @@ import StatusMessage, { FAILED, SUCCESS } from '../components/StatusMessage';
 import { useCheckToken } from '../hooks/useCheckToken';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
-function Login({ setIsAuthenticated }) {
-  const { setToken, attemptLogin, token, isOnline, setAdminUsername } = useAuthContext();
+function Login({  }) {
+  const { setToken, attemptLogin, isOnline, setAdminUsername } = useAuthContext();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -38,7 +38,6 @@ function Login({ setIsAuthenticated }) {
     const result = await attemptLogin({ username, password });
 
     if (result.success === true) {
-      setIsAuthenticated(true)
       setMessage({ success: true, message: 'Signed In' });
       setAdminUsername(result.data.admin.username)
       setToken(result.data.admin.token);
