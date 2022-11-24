@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -39,7 +39,9 @@ function App() {
 
         <Route path="/dashboard" element={
           isCheckingToken === true ? <LoadingScreen /> : (
-            <ConditionalRoute renderIf={isTokenValid === TOKEN_STATE.VALID} go={{ to: '/login', if: isTokenValid === TOKEN_STATE.INVALID }}  >
+            <ConditionalRoute renderIf={isTokenValid === TOKEN_STATE.VALID}
+              go={{ to: '/login', if: isTokenValid === TOKEN_STATE.INVALID }}
+            >
               <Dashboard />
             </ConditionalRoute>)
         }>

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import useBaseUrl from '../hooks/useBaseUrl';
-import { useCallback } from 'react';
-import { useCheckToken } from '../hooks/useCheckToken';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
 const AuthContext = React.createContext();

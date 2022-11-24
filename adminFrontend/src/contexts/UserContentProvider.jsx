@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import useBaseUrl from '../hooks/useBaseUrl';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useAuthContext } from './AuthProvider';
 
 const UserContentContext = createContext();
@@ -32,16 +33,16 @@ export function useUserContentContext() {
 
 function UserContentProvider({ children }) {
   const [projects, projectDispatch] = useReducer(projectsReducer, []);
-  const [statusMessage, setStatusMessage] = useState({
+  const [statusMessage, setStatusMessage] = useSessionStorage("STATUS_MESSAGE", {
     status: '',
     message: '',
   });
 
-  const [openModal, setOpenModal] = useState({
+  const [openModal, setOpenModal] = useSessionStorage("OPEN_MODAL",{
     open: false,
     mode: null,
   });
-  const [currentProject, setCurrentProject] = useState({});
+  const [currentProject, setCurrentProject] = useSessionStorage("CURRENT_PROJECT", {});
 
   const { baseUrl } = useBaseUrl();
   const { fileServerBase } = useBaseUrl();
