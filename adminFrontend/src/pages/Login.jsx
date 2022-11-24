@@ -6,7 +6,12 @@ import StatusMessage, { FAILED, SUCCESS } from '../components/StatusMessage';
 import { useCheckToken } from '../hooks/useCheckToken';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
-function Login({  }) {
+const BTN_STATE = {
+  DISABLE: 'disable',
+  ENABLE: 'enable'
+}
+
+function Login() {
   const { setToken, attemptLogin, isOnline, setAdminUsername } = useAuthContext();
 
   const [username, setUsername] = useState('');
@@ -35,6 +40,7 @@ function Login({  }) {
       setPasswordErrorMsg('');
     }
 
+    disableSubmitBtn(e.target.submitBtn);
     const result = await attemptLogin({ username, password });
 
     if (result.success === true) {
@@ -47,8 +53,31 @@ function Login({  }) {
         message: result.message || 'Could not login. Try again...',
       });
     }
+    enableSubmitBtn(e.target.submitBtn);
   }
 
+  function disableSubmitBtn(button) {
+    changeSubmitBtnState(button, BTN_STATE.DISABLE);
+  }
+
+  function enableSubmitBtn(button) {
+    changeSubmitBtnState(button, BTN_STATE.ENABLE)
+  }
+
+  function changeSubmitBtnState(button, btnState) {
+    switch (btnState) {
+      case BTN_STATE.DISABLE:
+        button.disabled = true
+        button.textContent = "Processing..."
+        break;
+      case BTN_STATE.ENABLE:
+        button.disabled = false
+        button.textContent = "Continue"
+        break;
+      default:
+        throw new Error("Unknown button state")
+    }
+  }
 
   return (
     <>
@@ -143,7 +172,7 @@ function Login({  }) {
             </div>
 
             <div className="form-group">
-              <button type="submit">Continue</button>
+              <button type="submit" name='submitBtn'>Continue</button>
             </div>
           </form>
         </div>

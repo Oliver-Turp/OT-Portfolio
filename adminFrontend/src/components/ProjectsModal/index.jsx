@@ -176,7 +176,7 @@ function ProjectsModal() {
           "Project Image not uploaded to CDN, Project not added. Try again",
       });
 
-      setSubmitBtnDisabled(true);
+      setSubmitBtnEnabled(true);
       return;
     }
 
