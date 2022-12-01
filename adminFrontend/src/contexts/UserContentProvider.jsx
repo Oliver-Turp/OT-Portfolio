@@ -13,7 +13,6 @@ const projectsReducer = (state, action) => {
   } else if (action.type === 'ADD') {
     return [...state, action.payload];
   } else if (action.type === 'UPDATE_PROJECT') {
-    console.log(action.payload);
     return state.map((item) => {
       if (item.id === action.payload.id) {
         return { ...action.payload };
@@ -52,7 +51,6 @@ function UserContentProvider({ children }) {
   async function fetchProjects() {
     const data = await (await fetch(baseUrl + 'content/projects')).json();
     if (data.success) {
-      // console.log(data.data.projects);
       projectDispatch({ type: 'POPULATE', payload: data.data.projects });
     }
   }
@@ -102,7 +100,6 @@ function UserContentProvider({ children }) {
       ).json();
       return newProject;
     } catch (err) {
-      console.log('Error: ', err);
       return { success: false, message: 'Something went wrong! Try again' };
     }
   }
@@ -120,7 +117,6 @@ function UserContentProvider({ children }) {
     featured
   ) {
     try {
-      console.log(id);
       const response = await (
         await fetch(`${baseUrl}content/projects/${id}`, {
           method: 'PUT',
@@ -144,7 +140,6 @@ function UserContentProvider({ children }) {
       ).json();
       return response;
     } catch (err) {
-      console.log('Error: ', err);
       return { success: false, message: "Couldn't update project. Try again" };
     }
   }
@@ -166,7 +161,6 @@ function UserContentProvider({ children }) {
   }
 
   async function uploadToCdn(file, projectId) {
-    // console.log(file);
     const formData = new FormData();
     formData.append('image', file);
     formData.append('projectId', projectId);
@@ -197,7 +191,6 @@ function UserContentProvider({ children }) {
         body: JSON.stringify({ url }),
       })
     ).json();
-    console.log(response);
     return response;
   }
 

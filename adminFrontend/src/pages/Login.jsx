@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthProvider';
 import StatusMessage, { FAILED, SUCCESS } from '../components/StatusMessage';
-import { useCheckToken } from '../hooks/useCheckToken';
-import { useSessionStorage } from '../hooks/useSessionStorage';
+
 
 const BTN_STATE = {
   DISABLE: 'disable',
@@ -12,15 +11,17 @@ const BTN_STATE = {
 }
 
 function Login() {
-  const { setToken, attemptLogin, isOnline, setAdminUsername } = useAuthContext();
-
+  const { setToken, attemptLogin, isOnline, setAdminUsername, setStartTokenCheck, setShowCountdown } = useAuthContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const [usernameErrorMsg, setUsernameErrorMsg] = useState('');
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
-
   const [message, setMessage] = useState({});
+
+  useEffect(() => {
+    setStartTokenCheck(false)
+    setShowCountdown(false)
+  }, [])
 
 
   async function handleSubmit(e) {

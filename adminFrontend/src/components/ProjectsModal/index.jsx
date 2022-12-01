@@ -56,7 +56,6 @@ function ProjectsModal() {
   } = useUserContentContext();
   const { id, name, desc, image, link, icon1, icon2, icon3, type, featured } =
     project;
-  console.log("Original project id: ", project.id);
   const { mode } = openModal;
   const navigate = useNavigate();
 
@@ -159,7 +158,6 @@ function ProjectsModal() {
         acceptedFiles[0],
         imageProjectId
       );
-      console.log("image uploaded to cdn");
       // if that works, then use the url returned to set the imageUrl for the project we'll be creating
       if (imageUploadResponse.success) {
         imageUrl = imageUploadResponse.url;
@@ -299,10 +297,7 @@ function ProjectsModal() {
         featured
       );
       if (updateProjectResponse.success) {
-        console.log(
-          "Updated project's id: ",
-          updateProjectResponse.data.project.id
-        );
+       
         updateProjectInList(updateProjectResponse.data.project);
         setStatusMessage({
           status: SUCCESS,

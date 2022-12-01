@@ -7,23 +7,21 @@ import ContentChooser from './components/ContentChooser';
 import Projects from './components/Projects';
 import ProjectModal from './components/ProjectsModal';
 import { useEffect, useState, useCallback } from 'react';
-import { useCheckToken, TOKEN_STATE } from './hooks/useCheckToken';
+import { TOKEN_STATE, useCheckToken } from './hooks/useCheckToken';
 import PageNotFound from './pages/PageNotFound';
 import LoadingScreen from './components/LoadingScreen';
 import ConditionalRoute from './components/ConditionalRoute';
 
 function App() {
-  const { token } = useAuthContext();
+
   const { isCheckingToken, isTokenValid, retryCheckToken } = useCheckToken();
+  const { token } = useAuthContext();
+
 
   useEffect(() => {
     retryCheckToken()
   }, [token])
 
-
-  useEffect(() => {
-    console.log("isCheckingToken: ", isCheckingToken, ' | ', "isTokenValid: ", isTokenValid)
-  })
 
   return (
     <>
@@ -42,7 +40,7 @@ function App() {
             <ConditionalRoute renderIf={isTokenValid === TOKEN_STATE.VALID}
               go={{ to: '/login', if: isTokenValid === TOKEN_STATE.INVALID }}
             >
-              <Dashboard />
+              <Dashboard isTokenValid={isTokenValid} />
             </ConditionalRoute>)
         }>
           <Route index element={<ContentChooser />} />

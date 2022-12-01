@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import useBaseUrl from '../hooks/useBaseUrl';
 import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useCheckToken } from '../hooks/useCheckToken'
 
 const AuthContext = React.createContext();
 
@@ -12,13 +13,49 @@ export const useAuthContext = () => {
 const ADMIN_USER_TOKEN_KEY = 'adminUserToken';
 const ADMIN_USERNAME_KEY = 'adminUsername';
 
+
+const JWT_EXPIRED = 'jwt expired'
+
 function AuthProvider({ children }) {
-  const [token, setToken] = useLocalStorage(ADMIN_USER_TOKEN_KEY);
+  const [token, setToken] = useLocalStorage(ADMIN_USER_TOKEN_KEY, '');
   //   const [adminUsername, setAdminUsername] = useLocalStorage(ADMIN_USERNAME_KEY);
   const [adminUsername, setAdminUsername] = useSessionStorage(ADMIN_USERNAME_KEY, '');
   const { baseUrl } = useBaseUrl();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [showCountdown, setShowCountdown] = useState(false)
+  const [startTokenCheck, setStartTokenCheck] = useState(false);
 
+
+  useEffect(() => {
+    let timerId = "";
+
+    if (startTokenCheck === true) {
+      timerId = setInterval(
+        async () => {
+          const resp = await checkTokenAboutToExpire();
+          if (resp.success === true && resp.aboutToExpire === true) {
+            // setStartTokenCheck(false)  
+            setShowCountdown(true)
+          } else if (resp.success === false && resp.message === JWT_EXPIRED) {
+            setToken("")
+          }
+        }, 3000
+      )
+    }
+
+    if (token === "") {
+      if (timerId !== "") {
+        clearInterval(timerId)
+      }
+    }
+
+    return () => {
+      if (timerId !== "") {
+        clearInterval(timerId)
+      }
+    }
+
+  }, [startTokenCheck, token])
 
 
   function logoutAdmin() {
@@ -44,7 +81,6 @@ function AuthProvider({ children }) {
   }, [isOnline]);
 
   const getAdminInfo = async () => {
-    // console.log(token)
 
     try {
       const data = await (
@@ -66,8 +102,55 @@ function AuthProvider({ children }) {
     }
   };
 
+
+
+  const checkTokenAboutToExpire = async () => {
+
+    try {
+      const data = await (
+        await fetch(baseUrl + 'auth/checkToken', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        })
+      ).json();
+
+      return data;
+    } catch (err) {
+
+      if (err === "jwt expired") {
+        return { success: false, message: JWT_EXPIRED }
+      } else {
+
+        return { success: false };
+      }
+    }
+  };
+
+  async function refreshToken() {
+    try {
+      const data = await (
+        await fetch(baseUrl + 'auth/signNewToken', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        })
+      ).json();
+
+      return data;
+    } catch (err) {
+      return { success: false, message: err}
+    }
+  }
+
+
   async function attemptLogin({ username, password }) {
     try {
+
       const response = await fetch(baseUrl + 'auth/login', {
         method: 'POST',
         mode: 'cors',
@@ -98,6 +181,10 @@ function AuthProvider({ children }) {
         attemptLogin,
         getAdminInfo,
         isOnline,
+        showCountdown,
+        setShowCountdown,
+        setStartTokenCheck,
+        refreshToken
       }}
     >
       {children}

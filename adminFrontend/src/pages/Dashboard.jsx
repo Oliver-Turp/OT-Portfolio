@@ -4,20 +4,32 @@ import { useAuthContext } from '../contexts/AuthProvider';
 import { useUserContentContext } from '../contexts/UserContentProvider';
 import { Outlet } from 'react-router-dom';
 import StatusMessage from '../components/StatusMessage';
+import { useState } from 'react';
+import CountdownToLogout from '../components/CountdownToLogout';
+import { TOKEN_STATE } from '../hooks/useCheckToken'
 
-function Dashboard() {
+function Dashboard({ isTokenValid }) {
   // accessing some global state from appropriate contexts
-  const { adminUsername, logoutAdmin, isOnline } = useAuthContext();
+  const { adminUsername, logoutAdmin, isOnline, showCountdown, setShowCountdown, setStartTokenCheck } = useAuthContext();
   const { statusMessage, setStatusMessage } = useUserContentContext();
 
+  useEffect(() => {
+    if (isTokenValid === TOKEN_STATE.VALID) {
+      setStartTokenCheck(true)
+    } else if (isTokenValid === TOKEN_STATE.INVALID) {
+      setStartTokenCheck(false)
+    }
+  }, [isTokenValid])
 
-  // wrapping the logout function from the AuthProvider
-  function logout() {
-    logoutAdmin();
-  }
+
 
   return (
     <>
+      {showCountdown === true && (
+        <CountdownToLogout hide={() => setShowCountdown(false)} />
+      )}
+
+
       <header style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>Dashboard</h1>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -28,7 +40,7 @@ function Dashboard() {
               color: 'var(--secondary-clr-dark)',
               outline: '1px solid var(--secondary-clr)',
             }}
-            onClick={logout}
+            onClick={logoutAdmin}
           >
             Logout
           </button>
