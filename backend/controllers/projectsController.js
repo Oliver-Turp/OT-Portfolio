@@ -3,7 +3,6 @@ const {
   Types: { ObjectId },
 } = require("mongoose");
 const { CDN_BASE_URL } = require("../constants/cdnServer");
-// const axios = require('axios').default
 const fetch = require("node-fetch-commonjs");
 
 // @desc Get all projects
@@ -27,10 +26,11 @@ async function getAllProjects(req, res) {
         featured: project.featured,
       };
     });
+
     res.status(200).json({ success: true, data: { projects } });
   } catch (err) {
     res.status(200).json({
-      success: true,
+      success: false,
       message: "Server couldn't complete your request, try again",
     });
   }
@@ -43,7 +43,6 @@ async function getAllProjects(req, res) {
 async function addProject(req, res) {
   const { id, name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
-  // console.log(req.body);
   if (
     !name ||
     !desc ||
@@ -110,7 +109,6 @@ async function addProject(req, res) {
 async function updateProject(req, res) {
   const { name, desc, image, link, icon1, icon2, icon3, type, featured } =
     req.body;
-  console.log(featured);
   const { id } = req.params;
   if (
     !name ||
@@ -208,7 +206,6 @@ async function deleteProject(req, res) {
     };
     res.status(200).json({ success: true, data: { project } });
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 }
@@ -239,7 +236,6 @@ async function getProject(req, res) {
     }
     res.status(200).json({ success: true, data: { project } });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: err.message });
   }
 }

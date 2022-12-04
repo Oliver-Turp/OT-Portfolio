@@ -1,12 +1,13 @@
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Admin = require("../models/adminModel");
+const { generateToken } = require('../helpers/generateToken')
 
 // @desc Register a new admin
 // @route /api/admin/auth/register
 // @method POST
 // @access Public
 const registerAdmin = async (req, res) => {
+  console.log("trying to register admin")
   if (!req.body.username || !req.body.password) {
     //return a response to user. The object you pass to the json() is totally up to you.
     // the return keyword is here so that the function doesn't continue running. You don't want to send a res.json() twice, that wouldn't make sense
@@ -79,7 +80,7 @@ const loginAdmin = async (req, res) => {
   } catch (err) {
     res
       .status(401)
-      .json({ success: false, message: `Incorrect Username or password` });
+      .json({ success: false, message: `Incorrect Username or password ${err}` });
   }
 };
 
@@ -92,14 +93,21 @@ const getMe = async (req, res) => {
 };
 
 
-// generates the token admin will use to access private routes
-function generateToken(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" });
+// @desc Login an admin
+// @route /api/admin/auth/login
+// @method POST
+// @access Public
+const signNewToken = async (req, res) => {
+  const token = generateToken({ id: req.decodedToken.id })
+  res.status(200).json({ success: true, data: { token } })
 }
+
+
 
 //export the controller functions here
 module.exports = {
   registerAdmin,
   loginAdmin,
   getMe,
+  signNewToken
 };

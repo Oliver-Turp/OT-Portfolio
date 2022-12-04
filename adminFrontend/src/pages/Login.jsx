@@ -1,24 +1,28 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { createSearchParams, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthProvider';
 import StatusMessage, { FAILED, SUCCESS } from '../components/StatusMessage';
-import { useCheckToken } from '../hooks/useCheckToken';
+
+
+const BTN_STATE = {
+  DISABLE: 'disable',
+  ENABLE: 'enable'
+}
 
 function Login() {
-  const { setToken, attemptLogin, token, isOnline } = useAuthContext();
-
-  const navigate = useNavigate();
-
+  const { setToken, attemptLogin, isOnline, setAdminUsername, setStartTokenCheck, setShowCountdown } = useAuthContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const [usernameErrorMsg, setUsernameErrorMsg] = useState('');
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
-
   const [message, setMessage] = useState({});
 
-  const { isChecking, isValid, retryCheckToken } = useCheckToken();
+  useEffect(() => {
+    setStartTokenCheck(false)
+    setShowCountdown(false)
+  }, [])
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -37,11 +41,12 @@ function Login() {
       setPasswordErrorMsg('');
     }
 
+    disableSubmitBtn(e.target.submitBtn);
     const result = await attemptLogin({ username, password });
 
     if (result.success === true) {
       setMessage({ success: true, message: 'Signed In' });
-      console.log(result.data.admin.token);
+      setAdminUsername(result.data.admin.username)
       setToken(result.data.admin.token);
     } else {
       setMessage({
@@ -49,22 +54,31 @@ function Login() {
         message: result.message || 'Could not login. Try again...',
       });
     }
+    enableSubmitBtn(e.target.submitBtn);
   }
 
-  useEffect(() => {
-    console.log('token in login page: ', token);
-  });
-  useEffect(() => {
-    if (token !== '') {
-      retryCheckToken();
-    }
-  }, [token]);
+  function disableSubmitBtn(button) {
+    changeSubmitBtnState(button, BTN_STATE.DISABLE);
+  }
 
-  useEffect(() => {
-    if (isChecking === false && isValid === true) {
-      navigate({ pathname: '/dashboard' });
+  function enableSubmitBtn(button) {
+    changeSubmitBtnState(button, BTN_STATE.ENABLE)
+  }
+
+  function changeSubmitBtnState(button, btnState) {
+    switch (btnState) {
+      case BTN_STATE.DISABLE:
+        button.disabled = true
+        button.textContent = "Processing..."
+        break;
+      case BTN_STATE.ENABLE:
+        button.disabled = false
+        button.textContent = "Continue"
+        break;
+      default:
+        throw new Error("Unknown button state")
     }
-  }, [isChecking, isValid]);
+  }
 
   return (
     <>
@@ -159,7 +173,7 @@ function Login() {
             </div>
 
             <div className="form-group">
-              <button type="submit">Continue</button>
+              <button type="submit" name='submitBtn'>Continue</button>
             </div>
           </form>
         </div>
