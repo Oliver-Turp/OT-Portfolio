@@ -24,31 +24,39 @@ import MySQL from "../Assets/Images/MySQL.png";
 const TechSlider = () => {
   return (
     <Swiper
+      className="index_slider"
+      slidesPerView={1}
+      slidesPerGroup={1}
       speed={1000}
       spaceBetween={30}
-      centeredSlides={true}
-      loop={true}
+      // centeredSlides={true}
+      // loop={true}
       autoplay={{
         delay: 1500,
         disableOnInteraction: false,
       }}
       pagination={{
         clickable: true,
+
       }}
-      navigation={true}
+
+ 
       modules={[Autoplay, Pagination, Navigation]}
       breakpoints={{
-        640: {
+        600: {
           slidesPerView: 2,
+          slidesPerGroup: 2,
           spaceBetween: 20,
         },
-        768: {
-          slidesPerView: 4,
-          spaceBetween: 40,
+        800: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
+          spaceBetween: 20,
         },
-        1024: {
+        980: {
           slidesPerView: 4,
-          spaceBetween: 60,
+          slidesPerGroup: 4,
+          spaceBetween: 20,
         },
       }}
     >
@@ -93,6 +101,17 @@ const TechSlider = () => {
           <img src={MySQL} alt="mysql" />
         </div>
       </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={Git} alt="git" />
+        </div>
+      </SwiperSlide>
+      <SwiperSlide className="index_slide">
+        <div>
+          <img src={MongoDB} alt="mongodb" />
+        </div>
+      </SwiperSlide>
+
     </Swiper>
   );
 };
