@@ -37,10 +37,7 @@ const TechSlider = () => {
       }}
       pagination={{
         clickable: true,
-
       }}
-
- 
       modules={[Autoplay, Pagination, Navigation]}
       breakpoints={{
         600: {
@@ -60,6 +57,7 @@ const TechSlider = () => {
         },
       }}
     >
+      {/* SLIDE ONE */}
       <SwiperSlide className="index_slide">
         <div>
           <img src={HTML5} alt="html5" />
@@ -81,6 +79,7 @@ const TechSlider = () => {
         </div>
       </SwiperSlide>
 
+      {/* SLIDE TWO */}
       <SwiperSlide className="index_slide">
         <div>
           <img src={CPanel} alt="cpanel" />
@@ -101,17 +100,6 @@ const TechSlider = () => {
           <img src={MySQL} alt="mysql" />
         </div>
       </SwiperSlide>
-      <SwiperSlide className="index_slide">
-        <div>
-          <img src={Git} alt="git" />
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="index_slide">
-        <div>
-          <img src={MongoDB} alt="mongodb" />
-        </div>
-      </SwiperSlide>
-
     </Swiper>
   );
 };
