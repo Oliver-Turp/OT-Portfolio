@@ -93,10 +93,7 @@ const getMe = async (req, res) => {
 };
 
 
-// @desc Login an admin
-// @route /api/admin/auth/login
-// @method POST
-// @access Public
+
 const signNewToken = async (req, res) => {
   const token = generateToken({ id: req.decodedToken.id })
   res.status(200).json({ success: true, data: { token } })

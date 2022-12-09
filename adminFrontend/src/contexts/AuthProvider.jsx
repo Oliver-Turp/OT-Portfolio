@@ -33,8 +33,9 @@ function AuthProvider({ children }) {
       timerId = setInterval(
         async () => {
           const resp = await checkTokenAboutToExpire();
-          if (resp.success === true && resp.aboutToExpire === true) {
-            // setStartTokenCheck(false)  
+          // showCountdown !== true // makes sure you don't set countdown if the showCountdown is already true
+          if (resp.success === true && resp.aboutToExpire === true && showCountdown !== true) {
+            console.log("resp: ", resp, "  showCountdown: true")
             setShowCountdown(true)
           } else if (resp.success === false && resp.message === JWT_EXPIRED) {
             setToken("")

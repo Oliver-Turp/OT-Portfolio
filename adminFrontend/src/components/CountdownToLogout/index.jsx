@@ -9,9 +9,6 @@ const CountdownToLogout = ({ children, hide }) => {
   const [remainingTime, setRemainingTime] = useState(60)
   const { logoutAdmin, refreshToken, setToken } = useAuthContext();
 
-
-
-
   useEffect(() => {
     // timerId should be ""  when no timer is currently running or a non-empty value when a timer is running
     let timerId = ""
