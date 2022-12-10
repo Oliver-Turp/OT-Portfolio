@@ -6,17 +6,15 @@ import { useAuthContext } from './contexts/AuthProvider';
 import ContentChooser from './components/ContentChooser';
 import Projects from './components/Projects';
 import ProjectModal from './components/ProjectsModal';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { TOKEN_STATE, useCheckToken } from './hooks/useCheckToken';
 import PageNotFound from './pages/PageNotFound';
 import LoadingScreen from './components/LoadingScreen';
 import ConditionalRoute from './components/ConditionalRoute';
 
 function App() {
-
   const { isCheckingToken, isTokenValid, retryCheckToken } = useCheckToken();
   const { token } = useAuthContext();
-
 
   useEffect(() => {
     retryCheckToken()
