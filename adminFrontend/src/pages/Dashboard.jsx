@@ -14,10 +14,13 @@ function Dashboard({ isTokenValid }) {
   const { statusMessage, setStatusMessage } = useUserContentContext();
 
   useEffect(() => {
-    if (isTokenValid === TOKEN_STATE.VALID) {
-      setStartTokenCheck(true)
-    } else if (isTokenValid === TOKEN_STATE.INVALID) {
-      setStartTokenCheck(false)
+    if (showCountdown === true) {
+      if (isTokenValid === TOKEN_STATE.VALID) {
+        console.log("ran")
+        setStartTokenCheck(true)
+      } else if (isTokenValid === TOKEN_STATE.INVALID) {
+        setStartTokenCheck(false)
+      }
     }
   }, [isTokenValid])
 

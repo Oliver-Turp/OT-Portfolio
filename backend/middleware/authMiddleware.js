@@ -3,9 +3,6 @@ const Admin = require('../models/adminModel')
 const mongoose = require('mongoose')
 const { generateToken } = require('../helpers/generateToken')
 
-
-
-
 //  a middleware is just a function. We can set this function to run on any number of routes. When set, this function will run between when the server receives a request and before it runs the main controller function.
 async function protect(req, res, next) {
     // check for the token in the header
@@ -33,17 +30,18 @@ async function protect(req, res, next) {
         // prevent user from accessing data if he/she did not send a token along with the request
         return res.status(401).json({ success: false, message: 'No token' })
     }
-
 }
 
 
 function tokenAboutToExpire(decodedToken) {
-    const durationInSec = Math.abs(decodedToken.exp * 1000 - decodedToken.iat * 1000)
-    console.log(durationInSec)
-    const offset = durationInSec * 0.3;
+    const expTimeInSec = decodedToken.exp;
+    const nowInSec = Date.now()/1000;
+    // console.log('now: ', nowInSec, ' exp: ', expTimeInSec)
 
-    console.log("now time: ", new Date().toTimeString(), "    expiration: ", new Date(decodedToken.exp * 1000).toTimeString())
-    if (Date.now() > (decodedToken.exp * 1000 - offset)) {
+    const remainingTimeInSec = Math.round(Math.abs(nowInSec - expTimeInSec))
+
+    console.log("remainingTime", remainingTimeInSec)
+    if (remainingTimeInSec < 120) {
         return true;
     }
     return false;
