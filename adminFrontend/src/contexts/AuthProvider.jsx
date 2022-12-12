@@ -34,13 +34,13 @@ function AuthProvider({ children }) {
         async () => {
           const resp = await checkTokenAboutToExpire();
           // showCountdown !== true // makes sure you don't set countdown if the showCountdown is already true
-          if (resp.success === true && resp.aboutToExpire === true) {
-            console.log("resp: ", resp, "   isinvalid: ", )
+          if (resp.success === true && resp.aboutToExpire === true ) {
+            console.log("resp: ", resp )
             setShowCountdown(true)
           } else if (resp.success === false && resp.message === JWT_EXPIRED) {
             setToken("")
           }
-        }, 3000
+        }, 20000
       )
     }
 
