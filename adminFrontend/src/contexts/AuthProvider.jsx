@@ -24,7 +24,11 @@ function AuthProvider({ children }) {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [showCountdown, setShowCountdown] = useState(false)
   const [startTokenCheck, setStartTokenCheck] = useState(false);
+  const [tokenChangeCount, setTokenChangeCount] = useSessionStorage("TOKEN_CHANGE_COUNT", 0)
 
+  useEffect(() => {
+    console.log("tokenChangeCount: ", tokenChangeCount)
+  }, [tokenChangeCount])
 
   useEffect(() => {
     let timerId = "";
@@ -34,9 +38,10 @@ function AuthProvider({ children }) {
         async () => {
           const resp = await checkTokenAboutToExpire();
           // showCountdown !== true // makes sure you don't set countdown if the showCountdown is already true
-          if (resp.success === true && resp.aboutToExpire === true ) {
-            console.log("resp: ", resp )
+          if (resp.success === true && resp.aboutToExpire === true && tokenChangeCount === 0) {
+            console.log("resp: ", resp)
             setShowCountdown(true)
+            setTokenChangeCount((prev) => prev + 1)
           } else if (resp.success === false && resp.message === JWT_EXPIRED) {
             setToken("")
           }
@@ -104,7 +109,6 @@ function AuthProvider({ children }) {
   };
 
 
-
   const checkTokenAboutToExpire = async () => {
     try {
       const data = await (
@@ -142,7 +146,7 @@ function AuthProvider({ children }) {
 
       return data;
     } catch (err) {
-      return { success: false, message: err}
+      return { success: false, message: err }
     }
   }
 
