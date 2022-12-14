@@ -3,6 +3,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import useBaseUrl from '../hooks/useBaseUrl';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useCheckToken } from '../hooks/useCheckToken'
+import { useRef } from 'react';
 
 const AuthContext = React.createContext();
 
@@ -18,54 +19,26 @@ const JWT_EXPIRED = 'jwt expired'
 
 function AuthProvider({ children }) {
   const [token, setToken] = useLocalStorage(ADMIN_USER_TOKEN_KEY, '');
-  //   const [adminUsername, setAdminUsername] = useLocalStorage(ADMIN_USERNAME_KEY);
   const [adminUsername, setAdminUsername] = useSessionStorage(ADMIN_USERNAME_KEY, '');
   const { baseUrl } = useBaseUrl();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  const [startTokenCheck, setStartTokenCheck] = useState(false)
+  const [timerId, setTimerId] = useState("")
   const [showCountdown, setShowCountdown] = useState(false)
-  const [startTokenCheck, setStartTokenCheck] = useState(false);
-  const [tokenChangeCount, setTokenChangeCount] = useSessionStorage("TOKEN_CHANGE_COUNT", 0)
-
-  useEffect(() => {
-    console.log("tokenChangeCount: ", tokenChangeCount)
-  }, [tokenChangeCount])
-
-  useEffect(() => {
-    let timerId = "";
-
-    if (startTokenCheck === true) {
-      timerId = setInterval(
-        async () => {
-          const resp = await checkTokenAboutToExpire();
-          // showCountdown !== true // makes sure you don't set countdown if the showCountdown is already true
-          if (resp.success === true && resp.aboutToExpire === true && tokenChangeCount === 0) {
-            console.log("resp: ", resp)
-            setShowCountdown(true)
-            setTokenChangeCount((prev) => prev + 1)
-          } else if (resp.success === false && resp.message === JWT_EXPIRED) {
-            setToken("")
-          }
-        }, 20000
-      )
-    }
-
-    if (token === "") {
-      if (timerId !== "") {
-        clearInterval(timerId)
-      }
-    }
-
-    return () => {
-      if (timerId !== "") {
-        clearInterval(timerId)
-      }
-    }
-
-  }, [startTokenCheck, token])
-
+  const [aboutToExpireCount, setAboutToExpireCount] = useState(0)
 
   function logoutAdmin() {
+    setStartTokenCheck(false)
     setToken('');
+    resetTokenChecker();
+  }
+
+
+  function resetTokenChecker() {
+    setAboutToExpireCount(0)
+    setShowCountdown(false)
+    setTimerId("")
   }
 
   useEffect(() => {
@@ -86,8 +59,56 @@ function AuthProvider({ children }) {
     };
   }, [isOnline]);
 
-  const getAdminInfo = async () => {
+  // effect used to manage the timer that periodically checks for token 
+  //  startTokenCheck is the primary state that controls if we get to initiate checking of the token or not
+  useEffect(() => {
+    // make sure we are clear to start token check and that there is no timer running already
+    if (startTokenCheck === true) {
+      if (timerId === '') {
+        setTimerId(
+          setInterval(async () => {
+            const response = await checkTokenAboutToExpire();
+            // Ensures we run setShowCountdown(true) just once even if the server tells us everytime that token is about to expire
+            if (aboutToExpireCount === 0) {
+              if (response.success === true) {
+                if (response.aboutToExpire === true) {
+                  setAboutToExpireCount((prev) => prev + 1)
+                  setShowCountdown(true)
+                }
+              } else {
+                if (response.message === JWT_EXPIRED) {
+                  logoutAdmin();
+                }
+              }
+            } else {
+              console.log("can't ask server if token is about to expire because server already told us that")
+            }
+          }, 5000)
+        )
+      } else {
+        console.log("timer already set")
+      }
+    } else {
+      if (timerId !== '') {
+        clearTimer();
+        return;
+      }
+    }
 
+    function clearTimer() {
+      clearInterval(timerId);
+      setTimerId("")
+    }
+
+    // makes sure the interval is reset everytime aboutToExpireCount changes so that the callback of setInterval() can use the most up to date version of aboutToExpireCount
+    return function () {
+      if (timerId !== '') {
+        clearTimer();
+      }
+    }
+  }, [startTokenCheck, timerId, aboutToExpireCount])
+
+  const getAdminInfo = async () => {
     try {
       const data = await (
         await fetch(baseUrl + 'auth/@me', {
@@ -120,10 +141,8 @@ function AuthProvider({ children }) {
           },
         })
       ).json();
-
       return data;
     } catch (err) {
-
       if (err === "jwt expired") {
         return { success: false, message: JWT_EXPIRED }
       } else {
@@ -132,6 +151,7 @@ function AuthProvider({ children }) {
     }
   };
 
+  //  get a new token to replace the old one before it expires
   async function refreshToken() {
     try {
       const data = await (
@@ -153,7 +173,6 @@ function AuthProvider({ children }) {
 
   async function attemptLogin({ username, password }) {
     try {
-
       const response = await fetch(baseUrl + 'auth/login', {
         method: 'POST',
         mode: 'cors',
@@ -166,6 +185,13 @@ function AuthProvider({ children }) {
         }),
       });
       const result = await response.json();
+      if (result.success === true) {
+        setAdminUsername(result.data.admin.username)
+        // once this is set, the effect in App.jsx will run retryCheckToken() which will make sure the token is valid. 
+        // This was done so that even if user already had a valid token and so did not need to go through a login phase, 
+        // the startTokenCheck would still be set to true
+        setToken(result.data.admin.token);
+      }
       return result;
     } catch (err) {
       console.log(err);
@@ -181,13 +207,13 @@ function AuthProvider({ children }) {
         adminUsername,
         setAdminUsername,
         logoutAdmin,
+        resetTokenChecker,
         attemptLogin,
         getAdminInfo,
         isOnline,
-        showCountdown,
-        setShowCountdown,
+        refreshToken,
         setStartTokenCheck,
-        refreshToken
+        showCountdown
       }}
     >
       {children}

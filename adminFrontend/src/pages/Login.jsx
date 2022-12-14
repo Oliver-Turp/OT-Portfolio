@@ -11,17 +11,12 @@ const BTN_STATE = {
 }
 
 function Login() {
-  const { setToken, attemptLogin, isOnline, setAdminUsername, setStartTokenCheck, setShowCountdown } = useAuthContext();
+  const { attemptLogin, isOnline } = useAuthContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [usernameErrorMsg, setUsernameErrorMsg] = useState('');
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
   const [message, setMessage] = useState({});
-
-  useEffect(() => {
-    setStartTokenCheck(false)
-    setShowCountdown(false)
-  }, [])
 
 
   async function handleSubmit(e) {
@@ -46,8 +41,6 @@ function Login() {
 
     if (result.success === true) {
       setMessage({ success: true, message: 'Signed In' });
-      setAdminUsername(result.data.admin.username)
-      setToken(result.data.admin.token);
     } else {
       setMessage({
         success: false,
@@ -150,6 +143,7 @@ function Login() {
               <label htmlFor="username">Username</label>
               <input
                 type="string"
+                required
                 id="username"
                 placeholder="Enter Username"
                 onChange={(e) => setUsername(e.target.value)}
@@ -162,6 +156,7 @@ function Login() {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
+                required
                 type="password"
                 id="password"
                 placeholder="Enter Password"

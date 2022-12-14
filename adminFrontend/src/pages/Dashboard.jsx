@@ -1,28 +1,14 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { useAuthContext } from '../contexts/AuthProvider';
 import { useUserContentContext } from '../contexts/UserContentProvider';
 import { Outlet } from 'react-router-dom';
 import StatusMessage from '../components/StatusMessage';
-import { useState } from 'react';
 import CountdownToLogout from '../components/CountdownToLogout';
-import { TOKEN_STATE } from '../hooks/useCheckToken'
 
 function Dashboard({ isTokenValid }) {
   // accessing some global state from appropriate contexts
-  const { adminUsername, logoutAdmin, isOnline, showCountdown, setShowCountdown, setStartTokenCheck } = useAuthContext();
+  const { adminUsername, logoutAdmin, isOnline, setShowCountdown, showCountdown } = useAuthContext();
   const { statusMessage, setStatusMessage } = useUserContentContext();
-
-  useEffect(() => {
-
-    if (isTokenValid === TOKEN_STATE.VALID) {
-      setStartTokenCheck(true)
-    } else if (isTokenValid === TOKEN_STATE.INVALID) {
-      setStartTokenCheck(false)
-    }
-
-  }, [isTokenValid])
-
 
 
   return (
