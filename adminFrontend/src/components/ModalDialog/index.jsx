@@ -10,7 +10,9 @@ const ModalDialog = ({ title, btnGroup, mainContent, hide }) => {
 
             if (parseFloat(modalRef.current.style.opacity) < 0) {
                 clearInterval(fadeId)
-                hide();
+                if (hide != null) {
+                    hide();
+                }
                 return;
             }
             modalRef.current.style.opacity -= 0.05;

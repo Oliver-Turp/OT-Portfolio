@@ -17,6 +17,6 @@ router.post("/register", registerAdmin);
 router.get("/@me", protect, getMe);
 router.get("/checkToken", protect, tokenExpire)
 router.get("/signNewToken", protect, signNewToken)
-
+ 
 
 module.exports = router;

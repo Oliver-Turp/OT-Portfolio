@@ -4,9 +4,11 @@ import Styles from "./styles.module.css";
 import ModalDialog from "../ModalDialog";
 import { useAuthContext } from "../../contexts/AuthProvider";
 
-const CountdownToLogout = ({ children, hide }) => {
-  const [remainingTime, setRemainingTime] = useState(60);
-  const { logoutAdmin, refreshToken, setToken } = useAuthContext();
+
+const CountdownToLogout = ({ children }) => {
+  const [remainingTime, setRemainingTime] = useState(60)
+  const { logoutAdmin, refreshToken, setToken, resetTokenChecker } = useAuthContext();
+
 
   useEffect(() => {
     // timerId should be ""  when no timer is currently running or a non-empty value when a timer is running
@@ -28,8 +30,10 @@ const CountdownToLogout = ({ children, hide }) => {
 
     return () => {
       if (timerId !== "") {
-        console.log("timer stopped");
-        clearInterval(timerId);
+
+        console.log("timer stopped")
+        clearInterval(timerId)
+
       }
     };
   }, [remainingTime]);
@@ -42,22 +46,21 @@ const CountdownToLogout = ({ children, hide }) => {
     <div className={Styles.Countdown}>
       {/* <div className={Styles.Countdown__RemainingTime}>
         <p className={Styles.RemainingTime__Value}>{remainingTime}</p>
-      </div> */}
-      <ModalDialog
-        hide={() => hide()}
-        title="Logout"
-        mainContent={`You're about to be logged out in less than ${remainingTime} seconds. "Continue" to work or "Logout" to well... logout`}
-        btnGroup={{
-          proceedBtnText: "Continue",
-          proceedBtnOnClick: async () => {
+
+      </div>
+      <ModalDialog title="Logout" mainContent={`You're about to be logged out in less than ${remainingTime} seconds. "Continue" to work or "Logout" to well... logout`} btnGroup={
+        {
+          proceedBtnText: "Continue", proceedBtnOnClick: async () => {
+
             // get a new token to replace the old one.
             const response = await refreshToken();
             if (response.success === true) {
-              setToken(response.data.token);
+              setToken(response.data.token)
+              resetTokenChecker()
+
             } else {
               console.log(response.message);
             }
-
             // restart this timer
           },
           cancelBtnText: "Leave",
